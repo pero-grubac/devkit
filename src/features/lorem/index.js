@@ -1,0 +1,1 @@
+export { LoremTool } from './LoremTool';

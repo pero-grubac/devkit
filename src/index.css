@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', sans-serif;
+
+  --bg:      #09090e;
+  --s1:      #0f0f16;
+  --s2:      #14141e;
+  --s3:      #1a1a26;
+  --border:  #22222f;
+  --border2: #2c2c3e;
+  --text:    #dde1f0;
+  --dim:     #4e5170;
+  --mid:     #7c809a;
+  --acc:     #7c6cf5;
+  --acc2:    #5b8af5;
+  --green:   #3dd68c;
+  --red:     #f55b5b;
+  --orange:  #f5a623;
+  --yellow:  #f5e642;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+input, textarea, button, select {
+  font-family: var(--mono);
+}
+
+textarea {
+  resize: vertical;
+}
+
+::selection {
+  background: #7c6cf544;
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border2);
+  border-radius: 2px;
+}
+
+/* JSON syntax highlight */
+.jk    { color: #7eb8f7; }
+.js    { color: #86efac; }
+.jn    { color: #f59e0b; }
+.jb    { color: #a78bfa; }
+.jnull { color: #f87171; }
+
+/* Sidebar nav classes */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  transition: background 0.12s, color 0.12s;
+  color: var(--dim);
+}
+
+.nav-btn:hover {
+  background: var(--s2);
+  color: var(--mid);
+}
+
+.nav-btn.active {
+  background: #7c6cf514;
+  color: var(--acc);
+}
+
+.nav-icon {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.group-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  padding: 12px 10px 4px;
+  text-transform: uppercase;
+}
+
+/* Tool page transition */
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tool-page {
+  animation: fadein 0.18s ease;
+}
