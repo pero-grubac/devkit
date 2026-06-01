@@ -9,8 +9,7 @@
 ![No Backend](https://img.shields.io/badge/Backend-None-3dd68c?style=flat-square&logoColor=white)
 ![localStorage](https://img.shields.io/badge/Storage-localStorage-f5a623?style=flat-square)
 
-**29 developer tools in one fast, dark, offline-ready app.**  
-No backend. No tracking. No ads. Everything runs in your browser.
+[![Live Demo](https://img.shields.io/badge/🛠️_Live_Demo-devkit-7c6cf5?style=for-the-badge)](https://pero-grubac.github.io/devkit/)
 
 </div>
 
@@ -18,14 +17,14 @@ No backend. No tracking. No ads. Everything runs in your browser.
 
 ## 📌 Project Overview
 
-**DevKit** is a developer utility toolkit built as a single-page React app. Every tool is self-contained, responds instantly as you type, and works completely offline after the first load. Outputs from any tool can be saved to a persistent **Snippet Library** stored in `localStorage` — accessible from the sidebar at any time.
+**DevKit** is a developer utility toolkit built as a single-page React app. Every tool is self-contained, responds instantly as you type, and works completely offline after the first load. Outputs from any tool can be saved to a persistent **Snippet Library** stored in `localStorage` — accessible from the sidebar at any time. No backend. No tracking. No ads. Everything runs in your browser.
+
 
 ---
 
 ## ✨ Features
 
 - ⚡ **Instant** — every tool responds as you type, no loading spinners
-- 🌑 **Offline-ready** — no network required after first load
 - 📌 **Snippet Library** — save any output with a custom title, browse, copy, and reopen from the sidebar
 - 🧩 **29 tools** across 7 categories — Data, Text, Dev, Security, Network, System, Numeric
 - 🎨 **Consistent dark UI** — single CSS file, shared design tokens, no inline style soup
