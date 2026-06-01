@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Card, Label, CopyBtn, Btn } from "../../shared/ui";
+import { SaveBtn } from "../../shared/SaveBtn";
 import { md5 } from "./md5";
 import { digest, ALGOS } from "./digest";
 
@@ -54,7 +55,7 @@ export function HashTool() {
                   <span style={{ fontFamily: "var(--mono)", fontSize: 9,  color: T.dim }}>{bits} bits</span>
                   <span style={{ fontFamily: "var(--mono)", fontSize: 9,  color: danger ? T.orange + "99" : T.dim, fontStyle: "italic" }}>{note}</span>
                 </div>
-                {val && <CopyBtn text={val} />}
+                {val && <><CopyBtn text={val} /><SaveBtn content={val} toolId="hash" toolLabel={label} defaultTitle={`${label} hash`} /></>}
               </div>
               <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: T.mid, wordBreak: "break-all", lineHeight: 1.6, background: T.s2, borderRadius: 4, padding: "8px 10px" }}>
                 {val || <span style={{ color: T.dim, fontStyle: "italic" }}>—</span>}

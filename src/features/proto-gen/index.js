@@ -1,0 +1,1 @@
+export { ProtoGen } from './ProtoGen';

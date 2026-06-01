@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SnippetProvider } from "./shared/SnippetContext";
 import { Sidebar } from "./components/Sidebar";
 import { TopBar }  from "./components/TopBar";
 
@@ -31,37 +32,39 @@ import { Chmod }          from "./features/chmod";
 import { UrlParser }      from "./features/url-parser";
 import { IpTool }         from "./features/ip-cidr";
 import { QrTool }         from "./features/qr-code";
+import { ProtoGen }       from "./features/proto-gen";
 
 const TOOLS = {
-  json:      JsonFormatter,
-  yaml:      YamlTool,
-  base64:    Base64Tool,
-  jwt:       JwtGenerator,
-  hash:      HashTool,
-  regex:     RegexTool,
-  color:     ColorTool,
-  palette:   ColorPalette,
-  time:      TimestampTool,
-  uuid:      UuidTool,
-  string:    StringTool,
-  number:    NumberTool,
-  ieee754:   Ieee754,
-  diff:      DiffTool,
-  markdown:  MarkdownTool,
-  lorem:     LoremTool,
-  commit:    CommitTool,
-  gitignore: GitignoreTool,
-  password:  PasswordTool,
-  totp:      TotpTool,
+  json:       JsonFormatter,
+  yaml:       YamlTool,
+  base64:     Base64Tool,
+  jwt:        JwtGenerator,
+  hash:       HashTool,
+  regex:      RegexTool,
+  color:      ColorTool,
+  palette:    ColorPalette,
+  time:       TimestampTool,
+  uuid:       UuidTool,
+  string:     StringTool,
+  number:     NumberTool,
+  ieee754:    Ieee754,
+  diff:       DiffTool,
+  markdown:   MarkdownTool,
+  lorem:      LoremTool,
+  commit:     CommitTool,
+  gitignore:  GitignoreTool,
+  password:   PasswordTool,
+  totp:       TotpTool,
   "http-req": HttpBuilder,
-  cron:      CronTool,
-  http:      HttpStatusTool,
-  semver:    SemverTool,
-  sql:       SqlTool,
-  chmod:     Chmod,
-  url:       UrlParser,
-  ip:        IpTool,
-  qr:        QrTool,
+  cron:       CronTool,
+  http:       HttpStatusTool,
+  semver:     SemverTool,
+  sql:        SqlTool,
+  chmod:      Chmod,
+  url:        UrlParser,
+  ip:         IpTool,
+  proto:      ProtoGen,
+  qr:         QrTool,
 };
 
 export default function App() {
@@ -70,14 +73,16 @@ export default function App() {
   const ActiveTool = TOOLS[tab];
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      <Sidebar tab={tab} setTab={setTab} collapsed={collapsed} setCollapsed={setCollapsed} />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
-        <TopBar tab={tab} setTab={setTab} />
-        <main key={tab} className="tool-page" style={{ flex: 1, overflowY: "auto", padding: "28px 32px" }}>
-          <ActiveTool />
-        </main>
+    <SnippetProvider>
+      <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+        <Sidebar tab={tab} setTab={setTab} collapsed={collapsed} setCollapsed={setCollapsed} />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
+          <TopBar tab={tab} setTab={setTab} />
+          <main key={tab} className="tool-page" style={{ flex: 1, overflowY: "auto", padding: "28px 32px" }}>
+            <ActiveTool />
+          </main>
+        </div>
       </div>
-    </div>
+    </SnippetProvider>
   );
 }

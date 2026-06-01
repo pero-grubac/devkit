@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { T } from "../../shared/theme";
+import { SaveBtn } from "../../shared/SaveBtn";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 
 const SETS = {
@@ -112,7 +113,7 @@ export function PasswordTool() {
           {passwords.map((pw, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "10px 14px" }}>
               <div style={{ flex: 1, fontFamily: "var(--mono)", fontSize: 13, color: T.text, letterSpacing: "0.04em", wordBreak: "break-all" }}>{pw}</div>
-              <CopyBtn text={pw} />
+              <CopyBtn text={pw} /><SaveBtn content={pw} toolId="password" toolLabel="Password" defaultTitle={`Password ${i+1}`} />
             </div>
           ))}
         </div>

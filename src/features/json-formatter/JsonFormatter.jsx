@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Textarea, Row, Btn, Card, Label, CopyBtn, ErrorBox, OutputBox } from "../../shared/ui";
 import { syntaxHL, parseJson, jsonStats } from "./format";
+import { SaveBtn } from "../../shared/SaveBtn";
 
 export function JsonFormatter() {
   const [input,  setInput]  = useState('{\n  "name": "devkit",\n  "version": "1.0.0",\n  "active": true\n}');
@@ -33,7 +34,7 @@ export function JsonFormatter() {
                   {n}sp
                 </Btn>
               ))}
-              {formatted && <CopyBtn text={formatted} />}
+              {formatted && <><CopyBtn text={formatted} /><SaveBtn content={formatted} toolId="json" toolLabel="JSON" /></>}
             </Row>
           </div>
 

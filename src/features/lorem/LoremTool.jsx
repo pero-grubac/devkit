@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
+import { SaveBtn } from "../../shared/SaveBtn";
 
 const WORDS = "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit voluptate velit esse cillum dolore fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum curabitur pretium tincidunt lacus nulla gravida orci lobortis tempus donec vitae sapien ut libero venenatis faucibus nullam quis ante etiam sit amet orci eget eros faucibus tincidunt duis leo sed fringilla mauris sit amet nibh donec sodales sagittis magna sed consequat leo pretium nibh ipsum consequat nisl vel pretium lectus quam id leo in vitae turpis massa sed elementum tempus egestas integer eget aliquet nibh praesent tristique magna".split(" ");
 
@@ -103,7 +104,7 @@ export function LoremTool() {
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
             <Label>Output</Label>
-            <CopyBtn text={output} />
+            <CopyBtn text={output} /><SaveBtn content={output} toolId="lorem" toolLabel="Lorem" />
           </div>
           <div style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "14px 16px", fontFamily: "var(--sans)", fontSize: 13, color: T.mid, lineHeight: 1.8, whiteSpace: "pre-wrap", maxHeight: 420, overflowY: "auto" }}>
             {output}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Label, CopyBtn } from "../../shared/ui";
+import { SaveBtn } from "../../shared/SaveBtn";
 
 // Lightweight SQL formatter — no deps
 const KEYWORDS = new Set([
@@ -145,7 +146,7 @@ export function SqlTool() {
               {[2, 4].map(n => (
                 <Btn key={n} small variant={indent === n ? "accent" : "default"} onClick={() => setIndent(n)}>{n}sp</Btn>
               ))}
-              {output && <CopyBtn text={output} />}
+              {output && <><CopyBtn text={output} /><SaveBtn content={output} toolId="sql" toolLabel="SQL" /></>}
             </div>
           </div>
           <pre

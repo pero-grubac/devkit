@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Label, CopyBtn, ErrorBox, OutputBox } from "../../shared/ui";
 import { pythonDictToJson } from "./pythonDict";
+import { SaveBtn } from "../../shared/SaveBtn";
 
 const CDN_JSYAML = "https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js";
 
@@ -107,7 +108,7 @@ export function YamlTool() {
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Label>{active?.outLabel}</Label>
-            {output && <CopyBtn text={output} />}
+            {output && <><CopyBtn text={output} /><SaveBtn content={output} toolId="yaml" toolLabel="YAML" /></>}
           </div>
           {!ready
             ? <div style={{ padding: 12, color: T.dim, fontSize: 12, fontStyle: "italic" }}>Loading js-yaml…</div>

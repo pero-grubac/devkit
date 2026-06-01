@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { T } from "../../shared/theme";
+import { SaveBtn } from "../../shared/SaveBtn";
 import { Textarea, Btn, Row, Label, CopyBtn } from "../../shared/ui";
 
 function computeDiff(a, b) {
@@ -105,11 +106,11 @@ export function DiffTool() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
         <div>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><Label>Original A</Label>{left && <CopyBtn text={left} />}</div>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><Label>Original A</Label>{left && <><CopyBtn text={left} /><SaveBtn content={left} toolId="diff" toolLabel="Diff" defaultTitle="Diff — Original A" /></>}</div>
           <Textarea value={left} onChange={setLeft} rows={6} placeholder={"Paste original text here...\n\nfunction hello() {\n  return 'world';\n}"} />
         </div>
         <div>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><Label>Modified B</Label>{right && <CopyBtn text={right} />}</div>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><Label>Modified B</Label>{right && <><CopyBtn text={right} /><SaveBtn content={right} toolId="diff" toolLabel="Diff" defaultTitle="Diff — Modified B" /></>}</div>
           <Textarea value={right} onChange={setRight} rows={6} placeholder={"Paste modified text here...\n\nfunction hello(name) {\n  return `Hello, ${name}!`;\n}"} />
         </div>
       </div>

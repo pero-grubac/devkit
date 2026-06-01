@@ -27,13 +27,14 @@ export const TABS = [
   { id: "chmod",     icon: "rwx",  label: "Chmod",          sub: "Permission Calculator"    },
   { id: "url",       icon: "url",  label: "URL",            sub: "Parse · Build · Encode"   },
   { id: "ip",        icon: "ip",   label: "IP / CIDR",      sub: "Parse · Subnet · Info"    },
+  { id: "proto",    icon: "pb",   label: "Proto Gen",      sub: "Class → .proto message"   },
   { id: "qr",        icon: "qr",   label: "QR Code",        sub: "Generator · Download"     },
 ];
 
 export const GROUPS = [
   { label: "Data",     ids: ["json", "yaml", "base64", "jwt", "hash"]                                    },
   { label: "Text",     ids: ["regex", "diff", "string", "markdown", "lorem"]                             },
-  { label: "Dev",      ids: ["uuid", "commit", "color", "palette", "gitignore", "cron", "http", "semver", "sql"] },
+  { label: "Dev",      ids: ["uuid", "commit", "color", "palette", "gitignore", "cron", "http", "semver", "sql", "proto"] },
   { label: "Security", ids: ["password", "totp"]                                                          },
   { label: "Network",  ids: ["http-req", "url", "ip", "qr"]                                              },
   { label: "System",   ids: ["chmod"]                                                                     },

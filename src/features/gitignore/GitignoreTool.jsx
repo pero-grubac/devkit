@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Btn, Label, Card } from "../../shared/ui";
+import { SaveBtn } from "../../shared/SaveBtn";
 
 // ─── Templates ───────────────────────────────────────────────────────────────
 
@@ -1122,7 +1123,7 @@ export function GitignoreTool() {
               <Btn small variant={copied ? "green" : "default"} onClick={copy}>
                 {copied ? "✓ Copied" : "Copy"}
               </Btn>
-              <Btn small variant="accent" onClick={download}>↓ Download .gitignore</Btn>
+              <Btn small variant="accent" onClick={download}>↓ Download .gitignore</Btn><SaveBtn content={edited} toolId="gitignore" toolLabel="Gitignore" defaultTitle=".gitignore" />
             </div>
           </div>
 
