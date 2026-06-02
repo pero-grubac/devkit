@@ -120,13 +120,17 @@ function buildProtoFromMessages(messages, pkgName, addService) {
   const needsEmpty = messages.some((m) =>
     m.fields.some((f) => f.rawType === "google.protobuf.Empty"),
   );
+  const needsStruct = messages.some((m) =>
+    m.fields.some((f) => f.rawType === "google.protobuf.Struct"),
+  );
 
   const lines = [];
   lines.push(`syntax = "proto3";`, "");
   lines.push(`package ${pkgName || "mypackage"};`, "");
   if (needsTimestamp) lines.push(`import "google/protobuf/timestamp.proto";`);
   if (needsEmpty) lines.push(`import "google/protobuf/empty.proto";`);
-  if (needsTimestamp || needsEmpty) lines.push("");
+  if (needsStruct) lines.push(`import "google/protobuf/struct.proto";`);
+  if (needsTimestamp || needsEmpty || needsStruct) lines.push("");
 
   for (const msg of messages) {
     lines.push(`message ${msg.name} {`);
