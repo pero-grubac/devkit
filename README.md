@@ -26,7 +26,7 @@
 
 - ⚡ **Instant** — every tool responds as you type, no loading spinners
 - 📌 **Snippet Library** — save any output with a custom title, browse, copy, and reopen from the sidebar
-- 🧩 **29 tools** across 7 categories — Data, Text, Dev, Security, Network, System, Numeric
+- 🧩 **30 tools** across 7 categories — Data, Text, Dev, Security, Network, System, Numeric
 - 🎨 **Consistent dark UI** — single CSS file, shared design tokens, no inline style soup
 - 🏗️ **Feature-based architecture** — each tool is an isolated folder, trivial to add or remove
 
@@ -67,6 +67,7 @@
 | **HTTP Status** | Searchable reference for all 1xx–5xx codes with descriptions, grouped by class |
 | **Semver** | Parse version breakdown · bump major/minor/patch/alpha/beta/rc · compare two versions |
 | **SQL** | Format and syntax-highlight SQL queries · 2/4-space indent toggle |
+| **Proto Gen** | Class/struct (Python, C#, Java, TypeScript) or ORM model → `.proto` message · custom field builder · service scaffold · live preview |
 
 ### 🔒 Security
 
@@ -210,6 +211,12 @@ devkit-v2/
         ├── ieee754/
         │   ├── ieee754.js               # analyzeFloat32, analyzeFloat64, INTERESTING presets
         │   ├── Ieee754.jsx              # Bit visualizer + stats card + quirks panel
+        │   └── index.js
+        │
+        ├── proto-gen/
+        │   ├── parser.js                 # Class/struct parsers — Python, C#, Java, TypeScript → .proto messages
+        │   ├── ormParser.js              # ORM model parsers (SQLAlchemy, Prisma, TypeORM, etc.) → .proto messages
+        │   ├── ProtoGen.jsx              # Plain Class · ORM/Schema · Custom Builder modes + live preview
         │   └── index.js
         │
         ├── base64/
