@@ -19,13 +19,13 @@ export function JsonFormatter() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <Row>
-        <div style={{ flex: 1 }}>
+      <Row style={{ alignItems: "stretch" }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
           <Label>Input JSON</Label>
-          <Textarea value={input} onChange={setInput} rows={14} />
+          <Textarea value={input} onChange={setInput} style={{ flex: 1, height: "100%", minHeight: 380, resize: "none" }} />
         </div>
 
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Label>Formatted</Label>
             <Row gap={6}>
@@ -40,7 +40,7 @@ export function JsonFormatter() {
 
           {result.error
             ? <ErrorBox message={result.error} />
-            : <OutputBox maxHeight={360}>
+            : <OutputBox style={{ flex: 1, minHeight: 380, maxHeight: "none" }}>
                 {formatted
                   ? <span dangerouslySetInnerHTML={{ __html: syntaxHL(formatted) }} />
                   : <span style={{ color: T.dim, fontStyle: "italic" }}>Output appears here...</span>

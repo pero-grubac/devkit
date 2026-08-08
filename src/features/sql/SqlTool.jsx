@@ -125,21 +125,20 @@ export function SqlTool() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <Row>
-        <div style={{ flex: 1 }}>
+      <Row style={{ alignItems: "stretch" }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column" }}>
           <Label>Input SQL</Label>
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
-            rows={6}
             spellCheck={false}
             placeholder="Paste SQL here…"
-            style={{ width: "100%", background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, color: T.text, fontFamily: "var(--mono)", fontSize: 12, padding: "12px 14px", lineHeight: 1.6, resize: "vertical", outline: "none" }}
+            style={{ width: "100%", flex: 1, height: "100%", minHeight: 320, background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, color: T.text, fontFamily: "var(--mono)", fontSize: 12, padding: "12px 14px", lineHeight: 1.6, resize: "none", outline: "none" }}
             onFocus={e => e.target.style.borderColor = T.border2}
             onBlur={e  => e.target.style.borderColor = T.border}
           />
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
             <Label>Formatted</Label>
             <div style={{ display: "flex", gap: 6 }}>
@@ -150,7 +149,7 @@ export function SqlTool() {
             </div>
           </div>
           <pre
-            style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "12px 14px", fontFamily: "var(--mono)", fontSize: 12, lineHeight: 1.7, overflow: "auto", maxHeight: 380, whiteSpace: "pre-wrap", wordBreak: "break-word", color: T.mid, margin: 0 }}
+            style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "12px 14px", fontFamily: "var(--mono)", fontSize: 12, lineHeight: 1.6, flex: 1, minHeight: 320, overflow: "auto", whiteSpace: "pre-wrap", wordBreak: "break-word", color: T.mid, margin: 0 }}
             dangerouslySetInnerHTML={{ __html: output ? highlight(output) : '<span style="color:#4e5170;font-style:italic">Formatted SQL appears here…</span>' }}
           />
         </div>

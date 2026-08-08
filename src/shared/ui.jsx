@@ -62,7 +62,7 @@ export function Input({ value, onChange, placeholder, type = "text" }) {
 }
 
 // ─── Textarea ────────────────────────────────────────────────────────────────
-export function Textarea({ value, onChange, placeholder, rows = 6, readOnly = false }) {
+export function Textarea({ value, onChange, placeholder, rows = 6, readOnly = false, style }) {
   return (
     <textarea
       value={value}
@@ -83,6 +83,7 @@ export function Textarea({ value, onChange, placeholder, rows = 6, readOnly = fa
         lineHeight: 1.6,
         outline: "none",
         transition: "border-color 0.15s",
+        ...style,
       }}
       onFocus={e => (e.target.style.borderColor = T.border2)}
       onBlur={e  => (e.target.style.borderColor = T.border)}
@@ -123,9 +124,9 @@ export function Card({ children, style }) {
 }
 
 // ─── Row ─────────────────────────────────────────────────────────────────────
-export function Row({ children, gap = 10 }) {
+export function Row({ children, gap = 10, style }) {
   return (
-    <div style={{ display: "flex", gap, alignItems: "flex-start", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap, alignItems: "flex-start", flexWrap: "wrap", ...style }}>
       {children}
     </div>
   );
@@ -166,7 +167,7 @@ export function ErrorBox({ message, tip }) {
 }
 
 // ─── OutputBox ───────────────────────────────────────────────────────────────
-export function OutputBox({ children, maxHeight = 380 }) {
+export function OutputBox({ children, maxHeight = 380, style }) {
   return (
     <pre style={{
       background: "#14141e",
@@ -182,6 +183,7 @@ export function OutputBox({ children, maxHeight = 380 }) {
       wordBreak: "break-word",
       color: "#7c809a",
       margin: 0,
+      ...style,
     }}>
       {children}
     </pre>

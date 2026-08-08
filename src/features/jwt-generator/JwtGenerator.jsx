@@ -191,21 +191,20 @@ export function JwtGenerator() {
       {/* ── SIGN ── */}
       {mode === "sign" && (
         <>
-          <Row>
-            <div style={{ flex: 1 }}>
+          <Row style={{ alignItems: "stretch" }}>
+            <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column" }}>
               <Label>Payload (JSON)</Label>
               <textarea
                 value={payload}
                 onChange={e => setPayload(e.target.value)}
-                rows={8}
                 spellCheck={false}
-                style={{ width:"100%", background:T.s2, border:`1px solid ${T.border}`, borderRadius:6, color:T.text, fontFamily:"var(--mono)", fontSize:12, padding:"12px 14px", lineHeight:1.6, outline:"none", transition:"border-color 0.15s" }}
+                style={{ width:"100%", flex: 1, height: "100%", minHeight: 200, background:T.s2, border:`1px solid ${T.border}`, borderRadius:6, color:T.text, fontFamily:"var(--mono)", fontSize:12, padding:"12px 14px", lineHeight:1.6, outline:"none", resize: "none", transition:"border-color 0.15s" }}
                 onFocus={e=>(e.target.style.borderColor=T.border2)}
                 onBlur={e=>(e.target.style.borderColor=T.border)}
               />
             </div>
 
-            <div style={{ flex: 1, display:"flex", flexDirection:"column", gap:12 }}>
+            <div style={{ flex: 1, minWidth: 280, display:"flex", flexDirection:"column", gap:12 }}>
               <div>
                 <Label>Secret Key</Label>
                 <Input value={secret} onChange={setSecret} placeholder="your-secret-key" />

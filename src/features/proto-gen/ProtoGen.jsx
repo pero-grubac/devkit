@@ -280,16 +280,17 @@ function OutputPanel({ output, error, pkgName, onPreview }) {
     padding: "12px 14px",
     fontFamily: "var(--mono)",
     fontSize: 12,
-    lineHeight: 1.7,
+    lineHeight: 1.6,
     overflow: "auto",
-    minHeight: 180,
+    flex: 1,
+    minHeight: 450,
     whiteSpace: "pre-wrap",
     wordBreak: "break-word",
     color: T.mid,
     margin: 0,
   };
   return (
-    <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
+    <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 6 }}>
       <div
         style={{
           display: "flex",
@@ -400,6 +401,9 @@ function PlainMode({ pkgName, addService }) {
 
   const taStyle = {
     width: "100%",
+    flex: 1,
+    height: "100%",
+    minHeight: 450,
     background: T.s2,
     border: `1px solid ${T.border}`,
     borderRadius: 6,
@@ -410,7 +414,7 @@ function PlainMode({ pkgName, addService }) {
     lineHeight: 1.6,
     outline: "none",
     transition: "border-color .15s",
-    resize: "vertical",
+    resize: "none",
   };
 
   return (
@@ -440,16 +444,15 @@ function PlainMode({ pkgName, addService }) {
           ))}
         </div>
       </div>
-      <Row>
+      <Row style={{ alignItems: "stretch" }}>
         <div
-          style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}
+          style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 6 }}
         >
           <Label>Input — {LANG_MAP[lang].label}</Label>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             spellCheck={false}
-            rows={22}
             style={taStyle}
             onFocus={(e) => (e.target.style.borderColor = T.border2)}
             onBlur={(e) => (e.target.style.borderColor = T.border)}
@@ -569,6 +572,9 @@ function OrmMode({ pkgName, addService }) {
 
   const taStyle = {
     width: "100%",
+    flex: 1,
+    height: "100%",
+    minHeight: 450,
     background: T.s2,
     border: `1px solid ${T.border}`,
     borderRadius: 6,
@@ -579,7 +585,7 @@ function OrmMode({ pkgName, addService }) {
     lineHeight: 1.6,
     outline: "none",
     transition: "border-color .15s",
-    resize: "vertical",
+    resize: "none",
   };
 
   return (
@@ -629,16 +635,15 @@ function OrmMode({ pkgName, addService }) {
           ))}
         </div>
       </div>
-      <Row>
+      <Row style={{ alignItems: "stretch" }}>
         <div
-          style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}
+          style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 6 }}
         >
           <Label>Input — {ORM_MAP[ormKey].label} model</Label>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             spellCheck={false}
-            rows={22}
             style={taStyle}
             onFocus={(e) => (e.target.style.borderColor = T.border2)}
             onBlur={(e) => (e.target.style.borderColor = T.border)}

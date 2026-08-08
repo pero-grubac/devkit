@@ -91,21 +91,20 @@ export function YamlTool() {
         </div>
       )}
 
-      <Row>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+      <Row style={{ alignItems: "stretch" }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
           <Label>{active?.inLabel}</Label>
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
-            rows={18}
             spellCheck={false}
-            style={{ width: "100%", background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, color: T.text, fontFamily: "var(--mono)", fontSize: 12, padding: "12px 14px", lineHeight: 1.6, outline: "none", transition: "border-color 0.15s" }}
+            style={{ width: "100%", flex: 1, height: "100%", minHeight: 440, background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, color: T.text, fontFamily: "var(--mono)", fontSize: 12, padding: "12px 14px", lineHeight: 1.6, outline: "none", resize: "none", transition: "border-color 0.15s" }}
             onFocus={e => (e.target.style.borderColor = T.border2)}
             onBlur={e  => (e.target.style.borderColor = T.border)}
           />
         </div>
 
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Label>{active?.outLabel}</Label>
             {output && <><CopyBtn text={output} /><SaveBtn content={output} toolId="yaml" toolLabel="YAML" /></>}
@@ -114,7 +113,7 @@ export function YamlTool() {
             ? <div style={{ padding: 12, color: T.dim, fontSize: 12, fontStyle: "italic" }}>Loading js-yaml…</div>
             : error
             ? <ErrorBox message={error} tip={isPython ? "Make sure it's a valid Python dict literal. Variables and function calls are not supported." : undefined} />
-            : <OutputBox maxHeight={440}>
+            : <OutputBox style={{ flex: 1, minHeight: 440, maxHeight: "none" }}>
                 {output || <span style={{ color: T.dim, fontStyle: "italic" }}>Output appears here…</span>}
               </OutputBox>
           }

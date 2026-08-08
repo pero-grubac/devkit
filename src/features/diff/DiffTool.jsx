@@ -75,17 +75,18 @@ export function DiffTool() {
   const rows = buildRows();
 
   function renderRow(row, side, idx) {
+    const key = `${side}-${idx}`;
     if (row.type === "eq")
-      return <div key={idx} style={{ ...lineStyle, color: T.dim }}><span style={lnStyle}>{side === "left" ? row.lineA : row.lineB}</span><span style={{ ...gutStyle, color: T.dim }}> </span><span style={contentStyle}>{row.val}</span></div>;
+      return <div key={key} style={{ ...lineStyle, color: T.dim }}><span style={lnStyle}>{side === "left" ? row.lineA : row.lineB}</span><span style={{ ...gutStyle, color: T.dim }}> </span><span style={contentStyle}>{row.val}</span></div>;
     if (side === "left" && row.type === "del-only")
-      return <div key={idx} style={{ ...lineStyle, background: T.red + "12", borderLeft: `2px solid ${T.red}55` }}><span style={lnStyle}>{row.lineA}</span><span style={{ ...gutStyle, color: T.red }}>−</span><span style={{ ...contentStyle, color: "#fca5a5" }}>{row.val || "↵"}</span></div>;
+      return <div key={key} style={{ ...lineStyle, background: T.red + "12", borderLeft: `2px solid ${T.red}55` }}><span style={lnStyle}>{row.lineA}</span><span style={{ ...gutStyle, color: T.red }}>−</span><span style={{ ...contentStyle, color: "#fca5a5" }}>{row.val || "↵"}</span></div>;
     if (side === "right" && row.type === "add-only")
-      return <div key={idx} style={{ ...lineStyle, background: T.green + "10", borderLeft: `2px solid ${T.green}55` }}><span style={lnStyle}>{row.lineB}</span><span style={{ ...gutStyle, color: T.green }}>+</span><span style={{ ...contentStyle, color: "#86efac" }}>{row.val || "↵"}</span></div>;
+      return <div key={key} style={{ ...lineStyle, background: T.green + "10", borderLeft: `2px solid ${T.green}55` }}><span style={lnStyle}>{row.lineB}</span><span style={{ ...gutStyle, color: T.green }}>+</span><span style={{ ...contentStyle, color: "#86efac" }}>{row.val || "↵"}</span></div>;
     if ((side === "left" && row.type === "add-only") || (side === "right" && row.type === "del-only"))
-      return <div key={idx} style={{ ...lineStyle, background: "rgba(255,255,255,0.02)", minHeight: 22 }}><span style={lnStyle} /><span style={gutStyle} /><span style={contentStyle} /></div>;
+      return <div key={key} style={{ ...lineStyle, background: "rgba(255,255,255,0.02)", minHeight: 22 }}><span style={lnStyle} /><span style={gutStyle} /><span style={contentStyle} /></div>;
     if (row.type === "change") {
-      if (side === "left") return <div key={idx} style={{ ...lineStyle, background: T.red + "10", borderLeft: `2px solid ${T.orange}55` }}><span style={lnStyle}>{row.lineA}</span><span style={{ ...gutStyle, color: T.orange }}>~</span><span style={{ ...contentStyle, color: "#fca5a5" }}>{renderCD(row.del, row.add, "del")}</span></div>;
-      return <div key={idx} style={{ ...lineStyle, background: T.green + "08", borderLeft: `2px solid ${T.orange}55` }}><span style={lnStyle}>{row.lineB}</span><span style={{ ...gutStyle, color: T.orange }}>~</span><span style={{ ...contentStyle, color: "#86efac" }}>{renderCD(row.del, row.add, "add")}</span></div>;
+      if (side === "left") return <div key={key} style={{ ...lineStyle, background: T.red + "10", borderLeft: `2px solid ${T.orange}55` }}><span style={lnStyle}>{row.lineA}</span><span style={{ ...gutStyle, color: T.orange }}>~</span><span style={{ ...contentStyle, color: "#fca5a5" }}>{renderCD(row.del, row.add, "del")}</span></div>;
+      return <div key={key} style={{ ...lineStyle, background: T.green + "08", borderLeft: `2px solid ${T.orange}55` }}><span style={lnStyle}>{row.lineB}</span><span style={{ ...gutStyle, color: T.orange }}>~</span><span style={{ ...contentStyle, color: "#86efac" }}>{renderCD(row.del, row.add, "add")}</span></div>;
     }
     return null;
   }
@@ -104,27 +105,34 @@ export function DiffTool() {
         )}
       </Row>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, alignItems: "stretch" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><Label>Original A</Label>{left && <><CopyBtn text={left} /><SaveBtn content={left} toolId="diff" toolLabel="Diff" defaultTitle="Diff — Original A" /></>}</div>
-          <Textarea value={left} onChange={setLeft} rows={6} placeholder={"Paste original text here...\n\nfunction hello() {\n  return 'world';\n}"} />
+          <Textarea value={left} onChange={setLeft} rows={6} placeholder={"Paste original text here...\n\nfunction hello() {\n  return 'world';\n}"} style={{ flex: 1, height: "100%", resize: "none" }} />
         </div>
-        <div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><Label>Modified B</Label>{right && <><CopyBtn text={right} /><SaveBtn content={right} toolId="diff" toolLabel="Diff" defaultTitle="Diff — Modified B" /></>}</div>
-          <Textarea value={right} onChange={setRight} rows={6} placeholder={"Paste modified text here...\n\nfunction hello(name) {\n  return `Hello, ${name}!`;\n}"} />
+          <Textarea value={right} onChange={setRight} rows={6} placeholder={"Paste modified text here...\n\nfunction hello(name) {\n  return `Hello, ${name}!`;\n}"} style={{ flex: 1, height: "100%", resize: "none" }} />
         </div>
       </div>
 
       {rows.length > 0 && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          {["left", "right"].map((side) => (
-            <div key={side}>
-              <Label>Diff — {side === "left" ? "A" : "B"}</Label>
-              <div style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, overflow: "auto", maxHeight: 400 }}>
-                {rows.map((row, idx) => renderRow(row, side, idx))}
-              </div>
-            </div>
-          ))}
+        <div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 6 }}>
+            <Label>Diff — A</Label>
+            <Label>Diff — B</Label>
+          </div>
+          {/* A single grid (not two independent columns) so every row's left/right cells share
+              one grid row — CSS Grid auto-sizes each row to its tallest cell, which keeps both
+              sides row-aligned and guarantees the two columns always end at the same height,
+              instead of drifting apart whenever a line wraps differently on one side. */}
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 10,
+            background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6,
+            overflow: "auto", maxHeight: 400,
+          }}>
+            {rows.map((row, idx) => [renderRow(row, "left", idx), renderRow(row, "right", idx)])}
+          </div>
         </div>
       )}
     </div>
