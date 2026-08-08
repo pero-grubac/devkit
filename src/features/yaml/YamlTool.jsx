@@ -28,7 +28,7 @@ const SAMPLES = {
   json2yaml: '{\n  "name": "devkit",\n  "version": "1.0.0",\n  "active": true,\n  "tags": ["json", "yaml"]\n}',
   yaml2json: "name: devkit\nversion: 1.0.0\nactive: true\ntags:\n  - json\n  - yaml\n",
   py2json:   "{'name': 'devkit', 'version': '1.0.0', 'active': True, 'count': None, 'tags': ['json', 'yaml']}",
-  py2yaml:   "{'dictv': {'pstbetao': {'merchant_account': '123', 'merchant_name': 'PST BET', 'key': 'PSTBETUAT', 'timeout': 15.0, 'log_requests': True, 'log_level': 'error'}}}",
+  py2yaml:   "{'name': 'devkit', 'version': '1.0.0', 'active': True, 'count': None, 'tags': ['json', 'yaml']}",
 };
 
 export function YamlTool() {

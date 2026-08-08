@@ -17,7 +17,7 @@
 
 ## 📌 Project Overview
 
-**DevKit** is a developer utility toolkit built as a single-page React app. Every tool is self-contained, responds instantly as you type, and works completely offline after the first load. Outputs from any tool can be saved to a persistent **Snippet Library** stored in `localStorage` — accessible from the sidebar at any time. No backend. No tracking. No ads. Everything runs in your browser.
+**DevKit** is a developer utility toolkit built as a single-page React app. Every tool is self-contained, responds instantly as you type. Outputs from any tool can be saved to a persistent **Snippet Library** stored in `localStorage` — accessible from the sidebar at any time. No backend. No tracking. No ads. Everything runs in your browser.
 
 
 ---
