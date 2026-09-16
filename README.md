@@ -26,7 +26,7 @@
 
 - ⚡ **Instant** — every tool responds as you type, no loading spinners
 - 📌 **Snippet Library** — save any output with a custom title, browse, copy, and reopen from the sidebar
-- 🧩 **30 tools** across 7 categories — Data, Text, Dev, Security, Network, System, Numeric
+- 🧩 **30 tools** across 7 categories — Data, Text, Generators, Converters, Web & Network, Design, Project
 - 🎨 **Consistent dark UI** — single CSS file, shared design tokens, no inline style soup
 - 🏗️ **Feature-based architecture** — each tool is an isolated folder, trivial to add or remove
 
@@ -43,6 +43,7 @@
 | **Base64** | Text encode/decode · URL-safe mode · Image → Base64 with drag & drop |
 | **JWT** | Decode tokens with expiry status · sign new tokens (HS256/384/512) via Web Crypto API |
 | **Hash** | MD5 (pure JS) · SHA-1/256/512 (Web Crypto) · hex upper/lower toggle |
+| **Proto Gen** | Class/struct (Python, C#, Java, TypeScript) or ORM model → `.proto` message · custom field builder · service scaffold · live preview |
 
 ### 📝 Text
 
@@ -52,52 +53,51 @@
 | **Diff** | Line-by-line and char-by-char diff · unified patch output |
 | **String** | 13 case conversions · word/char/sentence stats · clean & transform operations |
 | **Markdown** | Split-pane live preview · HTML output mode for CMS and email templates |
-| **Lorem Ipsum** | Paragraphs / sentences / words mode · configurable counts · word and char stats |
-
-### 🔧 Dev
-
-| Tool | Description |
-|------|-------------|
-| **UUID** | Generate v4 UUIDs · bulk generation · copy all |
-| **Commit** | Conventional commit message builder with emoji, type, scope, and breaking change flag |
-| **Color** | Color picker with HEX / RGB / HSL / RGBA / CSS HSL / Tailwind output |
-| **Color Palette** | Generate 10-step shades · complementary, triadic, analogous harmonies · export CSS vars or Tailwind config |
-| **Gitignore** | 34 templates across languages, frameworks, editors, and OS · fully editable before download |
-| **Cron** | Parse expressions into human description · next 8 run times · 9 common presets |
-| **HTTP Status** | Searchable reference for all 1xx–5xx codes with descriptions, grouped by class |
-| **Semver** | Parse version breakdown · bump major/minor/patch/alpha/beta/rc · compare two versions |
 | **SQL** | Format and syntax-highlight SQL queries · 2/4-space indent toggle |
-| **Proto Gen** | Class/struct (Python, C#, Java, TypeScript) or ORM model → `.proto` message · custom field builder · service scaffold · live preview |
 
-### 🔒 Security
+### 🎲 Generators
 
 | Tool | Description |
 |------|-------------|
+| **UUID** | v4, v7, and CUID generation · bulk generation · uppercase / no-dashes toggles |
 | **Password** | CSPRNG generator · configurable charset (upper/lower/digits/symbols) · live entropy score |
 | **TOTP** | RFC 6238 live 2FA codes · 30s countdown bar · current and next code display |
-
-### 🌐 Network
-
-| Tool | Description |
-|------|-------------|
-| **HTTP Request** | REST client with real request sending · curl / fetch / axios code generator |
-| **URL** | Parse URL into parts · build URL from parts · encode/decode query params |
-| **IP / CIDR** | IPv4 info (class, private/public, decimal/hex/binary) · full subnet calculator |
 | **QR Code** | Pure-JS QR encoder (no CDN) · 4 EC levels · 4 scales · PNG download |
+| **Lorem Ipsum** | Paragraphs / sentences / words mode · configurable counts · word and char stats |
 
-### 🖥️ System
-
-| Tool | Description |
-|------|-------------|
-| **Chmod** | Click checkboxes or type octal/symbolic · instant bidirectional conversion · common presets |
-
-### 🔢 Numeric
+### 🔁 Converters
 
 | Tool | Description |
 |------|-------------|
-| **Timestamp** | Unix ↔ human date · relative time · ISO, UTC, local formats |
 | **Number** | Base converter (bin/oct/dec/hex) · random number generator · rounding and precision |
 | **IEEE 754** | Visualize 32/64-bit float bit layout · sign/exponent/mantissa breakdown · floating point quirks panel |
+| **Timestamp** | Unix ↔ human date · relative time · ISO, UTC, local formats |
+| **Semver** | Parse version breakdown · bump major/minor/patch/alpha/beta/rc · compare two versions |
+| **Chmod** | Click checkboxes or type octal/symbolic · instant bidirectional conversion · common presets |
+
+### 🌐 Web & Network
+
+| Tool | Description |
+|------|-------------|
+| **HTTP Request** | REST client with tabbed Headers/Body/Code builder · real request sending · curl / fetch / axios code generator |
+| **HTTP Status** | Searchable reference for all 1xx–5xx codes with descriptions, grouped by class |
+| **URL** | Parse URL into parts · build URL from parts · encode/decode query params |
+| **IP / CIDR** | IPv4 info (class, private/public, decimal/hex/binary) · full subnet calculator |
+
+### 🎨 Design
+
+| Tool | Description |
+|------|-------------|
+| **Color** | Color picker with HEX / RGB / HSL / RGBA / CSS HSL / Tailwind output |
+| **Color Palette** | Generate 10-step shades · complementary, triadic, analogous harmonies · export CSS vars or Tailwind config |
+
+### 🗂️ Project
+
+| Tool | Description |
+|------|-------------|
+| **Commit** | Conventional commit message builder with emoji, type, scope, and breaking change flag |
+| **Gitignore** | 34 templates across languages, frameworks, editors, and OS · fully editable before download |
+| **Cron** | Parse expressions into human description · next 8 run times · 9 common presets |
 
 ---
 
