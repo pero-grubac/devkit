@@ -74,7 +74,7 @@ export function ColorTool() {
 
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
           <div>
-            <Label>Input (HEX, RGB, CSS)</Label>
+            <Label>Color Input (HEX, RGB, CSS)</Label>
             <Input value={input} onChange={parseInput} placeholder="#7c6cf5 or rgb(124, 108, 245)" />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>

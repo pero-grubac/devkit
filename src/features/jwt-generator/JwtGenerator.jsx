@@ -157,21 +157,21 @@ export function JwtGenerator() {
               )}
 
               {/* Header + Payload */}
-              <Row>
+              <Row style={{ alignItems: "stretch" }}>
                 {header && (
-                  <div style={{ flex:1 }}>
+                  <div style={{ flex:1, minWidth: 280, display: "flex", flexDirection: "column" }}>
                     <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
                       <Label>Header</Label><CopyBtn text={JSON.stringify(header,null,2)} />
                     </div>
-                    <pre style={preStyle} dangerouslySetInnerHTML={{ __html: syntaxHL(JSON.stringify(header,null,2)) }} />
+                    <pre style={{ ...preStyle, flex: 1, height: "100%" }} dangerouslySetInnerHTML={{ __html: syntaxHL(JSON.stringify(header,null,2)) }} />
                   </div>
                 )}
                 {dPayload && (
-                  <div style={{ flex:1 }}>
+                  <div style={{ flex:1, minWidth: 280, display: "flex", flexDirection: "column" }}>
                     <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
                       <Label>Payload</Label><CopyBtn text={JSON.stringify(dPayload,null,2)} />
                     </div>
-                    <pre style={preStyle} dangerouslySetInnerHTML={{ __html: syntaxHL(JSON.stringify(dPayload,null,2)) }} />
+                    <pre style={{ ...preStyle, flex: 1, height: "100%" }} dangerouslySetInnerHTML={{ __html: syntaxHL(JSON.stringify(dPayload,null,2)) }} />
                   </div>
                 )}
               </Row>

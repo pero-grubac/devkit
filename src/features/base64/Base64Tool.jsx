@@ -44,21 +44,26 @@ function TextMode() {
         </Btn>
       </Row>
 
-      <div>
-        <Label>{mode === "encode" ? "Plain Text" : "Base64"}</Label>
-        <Textarea value={input} onChange={setInput} rows={5}
-          placeholder={mode === "encode" ? "Enter text to encode…" : "Paste base64 to decode…"} />
-      </div>
+      <Row style={{ alignItems: "stretch" }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 24 }}>
+            <Label>{mode === "encode" ? "Text Input" : "Base64 Input"}</Label>
+          </div>
+          <Textarea value={input} onChange={setInput}
+            placeholder={mode === "encode" ? "Enter text to encode…" : "Paste base64 to decode…"}
+            style={{ flex: 1, height: "100%", minHeight: 280, resize: "none" }} />
+        </div>
 
-      <div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-          <Label>{mode === "encode" ? "Base64 Output" : "Decoded Text"}</Label>
-          {output && !isError && <CopyBtn text={output} />}
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 24 }}>
+            <Label>{mode === "encode" ? "Base64 Output" : "Text Output"}</Label>
+            {output && !isError && <CopyBtn text={output} />}
+          </div>
+          <div style={{ flex: 1, height: "100%", minHeight: 280, background: T.s2, border: `1px solid ${isError ? T.red+"55" : T.border}`, borderRadius: 6, padding: "12px 14px", fontFamily: "var(--mono)", fontSize: 13, color: isError ? T.red : T.mid, wordBreak: "break-all", lineHeight: 1.6, whiteSpace: "pre-wrap", overflow: "auto" }}>
+            {output || <span style={{ color: T.dim, fontStyle: "italic" }}>Output appears here…</span>}
+          </div>
         </div>
-        <div style={{ background: T.s2, border: `1px solid ${isError ? T.red+"55" : T.border}`, borderRadius: 6, padding: "12px 14px", fontFamily: "var(--mono)", fontSize: 13, color: isError ? T.red : T.mid, minHeight: 80, wordBreak: "break-all", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
-          {output || <span style={{ color: T.dim, fontStyle: "italic" }}>Output appears here…</span>}
-        </div>
-      </div>
+      </Row>
 
       {output && !isError && (
         <Row gap={8}>

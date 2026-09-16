@@ -21,13 +21,15 @@ export function JsonFormatter() {
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <Row style={{ alignItems: "stretch" }}>
         <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
-          <Label>Input JSON</Label>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 24 }}>
+            <Label>JSON Input</Label>
+          </div>
           <Textarea value={input} onChange={setInput} style={{ flex: 1, height: "100%", minHeight: 380, resize: "none" }} />
         </div>
 
         <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Label>Formatted</Label>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 24 }}>
+            <Label>JSON Output</Label>
             <Row gap={6}>
               {[2, 4].map(n => (
                 <Btn key={n} small variant={indent === n ? "accent" : "default"} onClick={() => setIndent(n)}>

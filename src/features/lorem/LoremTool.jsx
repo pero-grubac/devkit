@@ -62,7 +62,7 @@ export function LoremTool() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <Row>
+      <Row style={{ alignItems: "stretch" }}>
         <Card style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", gap: 8 }}>
             {["paragraphs", "sentences", "words"].map(m => (
@@ -103,7 +103,7 @@ export function LoremTool() {
       {output && (
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <Label>Output</Label>
+            <Label>Lorem Output</Label>
             <CopyBtn text={output} /><SaveBtn content={output} toolId="lorem" toolLabel="Lorem" />
           </div>
           <div style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "14px 16px", fontFamily: "var(--sans)", fontSize: 13, color: T.mid, lineHeight: 1.8, whiteSpace: "pre-wrap", maxHeight: 420, overflowY: "auto" }}>

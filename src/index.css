@@ -71,14 +71,15 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 10px;
+  padding: 7px 10px 7px 8px;
   border-radius: 6px;
   cursor: pointer;
   border: none;
+  border-left: 2px solid transparent;
   background: transparent;
   width: 100%;
   text-align: left;
-  transition: background 0.12s, color 0.12s;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
   color: var(--dim);
 }
 
@@ -89,6 +90,7 @@ textarea {
 
 .nav-btn.active {
   background: #7c6cf514;
+  border-left-color: var(--acc);
   color: var(--acc);
 }
 
@@ -108,14 +110,26 @@ textarea {
   white-space: nowrap;
 }
 
+.nav-btn.active .nav-label {
+  font-weight: 600;
+}
+
 .group-label {
   font-family: var(--mono);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: var(--dim);
-  padding: 12px 10px 4px;
+  padding: 14px 10px 5px;
   text-transform: uppercase;
+  border-top: 1px solid var(--border);
+  margin-top: 6px;
+}
+
+nav > div:first-child .group-label {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 4px;
 }
 
 /* Tool page transition */

@@ -90,34 +90,36 @@ export function MarkdownTool() {
     catch { setHtml("<p style='color:red'>Parse error</p>"); }
   }, [input, loading]);
 
-  const taStyle = { width: "100%", background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, color: T.text, fontFamily: "var(--mono)", fontSize: 12, padding: "12px 14px", lineHeight: 1.6, resize: "vertical", outline: "none", transition: "border-color 0.15s" };
+  const taStyle = { width: "100%", flex: 1, height: "100%", minHeight: 440, background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, color: T.text, fontFamily: "var(--mono)", fontSize: 12, padding: "12px 14px", lineHeight: 1.6, resize: "none", outline: "none", transition: "border-color 0.15s" };
 
   const Editor = (
-    <div style={{ flex: 1 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-        <Label>Markdown</Label>
+    <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 24 }}>
+        <Label>Markdown Input</Label>
         <CopyBtn text={input} />
       </div>
-      <textarea value={input} onChange={e => setInput(e.target.value)} rows={24} spellCheck={false} style={taStyle}
+      <textarea value={input} onChange={e => setInput(e.target.value)} spellCheck={false} style={taStyle}
         onFocus={e => (e.target.style.borderColor = T.border2)} onBlur={e => (e.target.style.borderColor = T.border)} />
     </div>
   );
 
   const Preview = (
-    <div style={{ flex: 1 }}>
-      <Label>Preview</Label>
-      <div className="md-preview" style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "16px 20px", minHeight: 200, overflow: "auto" }}
+    <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "flex", alignItems: "center", minHeight: 24 }}>
+        <Label>Preview Output</Label>
+      </div>
+      <div className="md-preview" style={{ flex: 1, height: "100%", minHeight: 440, background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "16px 20px", overflow: "auto" }}
         dangerouslySetInnerHTML={{ __html: loading ? "<p style='color:#4e5170;font-style:italic'>Loading…</p>" : html }} />
     </div>
   );
 
   const HtmlOutput = (
-    <div style={{ flex: 1 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+    <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 24 }}>
         <Label>HTML Output</Label>
         <CopyBtn text={html} />
       </div>
-      <pre style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "14px 16px", fontFamily: "var(--mono)", fontSize: 11, color: T.mid, lineHeight: 1.8, overflow: "auto", maxHeight: 560, whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
+      <pre style={{ flex: 1, height: "100%", minHeight: 440, background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "14px 16px", fontFamily: "var(--mono)", fontSize: 11, color: T.mid, lineHeight: 1.8, overflow: "auto", whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
         {html || <span style={{ color: T.dim, fontStyle: "italic" }}>HTML appears here…</span>}
       </pre>
     </div>
@@ -135,11 +137,11 @@ export function MarkdownTool() {
         ))}
       </Row>
 
-      <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+      <Row style={{ alignItems: "stretch" }}>
         {mode === "split"   && <>{Editor}{Preview}</>}
         {mode === "preview" && Preview}
         {mode === "html"    && <>{Editor}{HtmlOutput}</>}
-      </div>
+      </Row>
     </div>
   );
 }

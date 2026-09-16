@@ -43,7 +43,7 @@ function ParseMode() {
       )}
 
       {parsed.ok && (
-        <Row>
+        <Row style={{ alignItems: "stretch" }}>
           <Card style={{ flex: 1 }}>
             <Field label="Protocol" value={parsed.protocol} accent />
             <Field label="Host"     value={parsed.host}     accent />
@@ -164,7 +164,7 @@ function EncodeMode() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
-        <Label>Input</Label>
+        <Label>Text Input</Label>
         <Input value={input} onChange={setInput} placeholder="Text to encode or decode..." />
       </div>
       <Row>

@@ -127,7 +127,9 @@ export function SqlTool() {
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Row style={{ alignItems: "stretch" }}>
         <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column" }}>
-          <Label>Input SQL</Label>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 24, marginBottom: 6 }}>
+            <Label>SQL Input</Label>
+          </div>
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -139,8 +141,8 @@ export function SqlTool() {
           />
         </div>
         <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <Label>Formatted</Label>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 24, marginBottom: 6 }}>
+            <Label>SQL Output</Label>
             <div style={{ display: "flex", gap: 6 }}>
               {[2, 4].map(n => (
                 <Btn key={n} small variant={indent === n ? "accent" : "default"} onClick={() => setIndent(n)}>{n}sp</Btn>

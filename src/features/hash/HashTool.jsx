@@ -23,7 +23,7 @@ export function HashTool() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
-        <Label>Input String</Label>
+        <Label>Text Input</Label>
         <textarea
           value={input}
           onChange={e => setInput(e.target.value)}

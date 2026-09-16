@@ -77,7 +77,7 @@ export function PasswordTool() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <Row>
+      <Row style={{ alignItems: "stretch" }}>
         <Card style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
           <SliderRow label="LENGTH" value={length} min={4} max={128} onChange={setLength} />
           <SliderRow label="BATCH"  value={batch}  min={1} max={20}  onChange={setBatch}  />

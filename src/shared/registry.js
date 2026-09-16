@@ -62,25 +62,11 @@ export const TABS = [
 ];
 
 export const GROUPS = [
-  { label: "Data", ids: ["json", "yaml", "base64", "jwt", "hash"] },
-  { label: "Text", ids: ["regex", "diff", "string", "markdown", "lorem"] },
-  {
-    label: "Dev",
-    ids: [
-      "uuid",
-      "commit",
-      "color",
-      "palette",
-      "gitignore",
-      "cron",
-      "http",
-      "semver",
-      "sql",
-      "proto",
-    ],
-  },
-  { label: "Security", ids: ["password", "totp"] },
-  { label: "Network", ids: ["http-req", "url", "ip", "qr"] },
-  { label: "System", ids: ["chmod"] },
-  { label: "Numeric", ids: ["time", "number", "ieee754"] },
+  { label: "Data", ids: ["json", "yaml", "base64", "jwt", "hash", "proto"] },
+  { label: "Text", ids: ["regex", "diff", "string", "markdown", "sql"] },
+  { label: "Generators", ids: ["uuid", "password", "totp", "qr", "lorem"] },
+  { label: "Converters", ids: ["number", "ieee754", "time", "semver", "chmod"] },
+  { label: "Web & Network", ids: ["http-req", "http", "url", "ip"] },
+  { label: "Design", ids: ["color", "palette"] },
+  { label: "Project", ids: ["commit", "gitignore", "cron"] },
 ];

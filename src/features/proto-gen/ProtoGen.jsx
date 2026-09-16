@@ -296,9 +296,10 @@ function OutputPanel({ output, error, pkgName, onPreview }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          minHeight: 24,
         }}
       >
-        <Label>Output — .proto</Label>
+        <Label>Proto Output</Label>
         <Row gap={6}>
           {output && (
             <Btn small variant="accent" onClick={onPreview}>
@@ -448,7 +449,9 @@ function PlainMode({ pkgName, addService }) {
         <div
           style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 6 }}
         >
-          <Label>Input — {LANG_MAP[lang].label}</Label>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 24 }}>
+            <Label>{LANG_MAP[lang].label} Input</Label>
+          </div>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -639,7 +642,9 @@ function OrmMode({ pkgName, addService }) {
         <div
           style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 6 }}
         >
-          <Label>Input — {ORM_MAP[ormKey].label} model</Label>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 24 }}>
+            <Label>{ORM_MAP[ormKey].label} Model Input</Label>
+          </div>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}

@@ -102,7 +102,7 @@ export function StringTool() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
-        <Label>Input</Label>
+        <Label>Text Input</Label>
         <Textarea value={input} onChange={setInput} rows={4} />
       </div>
 

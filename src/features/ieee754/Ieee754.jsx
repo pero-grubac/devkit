@@ -106,7 +106,7 @@ export function Ieee754() {
           </Card>
 
           {/* Stats */}
-          <Row>
+          <Row style={{ alignItems: "stretch" }}>
             <Card style={{ flex: 1 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {[

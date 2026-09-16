@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { T } from "../../shared/theme";
-import { Input, Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
+import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { buildCurl, buildFetch, buildAxios } from "./codegen";
 
-const METHODS   = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
+const METHODS    = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
 const BODY_TYPES = ["none", "json", "form", "text"];
-const OUTPUT_TABS = ["curl", "fetch", "axios"];
+const CODE_TABS  = ["curl", "fetch", "axios"];
 
 const METHOD_COLORS = {
   GET: T.green, POST: "#60a5fa", PUT: T.orange,
@@ -32,12 +32,26 @@ const PRESETS = [
 ];
 
 const inputStyle = (extra = {}) => ({
-  background: T.s2, border: `1px solid ${T.border}`, borderRadius: 5,
+  background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6,
   color: T.text, fontFamily: "var(--mono)", fontSize: 12,
-  padding: "6px 10px", outline: "none", transition: "border-color 0.15s", ...extra,
+  padding: "9px 12px", outline: "none", transition: "border-color 0.15s", ...extra,
 });
 const onFocus = e => (e.target.style.borderColor = T.border2);
 const onBlur  = e => (e.target.style.borderColor = T.border);
+
+const PANEL_MIN_HEIGHT = 320;
+
+const tabStyle = active => ({
+  fontFamily: "var(--mono)", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em",
+  padding: "9px 16px",
+  border: "none",
+  borderBottom: `2px solid ${active ? T.acc : "transparent"}`,
+  background: "transparent",
+  color: active ? T.acc : T.dim,
+  cursor: "pointer",
+  textTransform: "uppercase",
+  transition: "color 0.12s, border-color 0.12s",
+});
 
 export function HttpBuilder() {
   const [method,   setMethod]   = useState("GET");
@@ -45,7 +59,8 @@ export function HttpBuilder() {
   const [headers,  setHeaders]  = useState([{ key: "Accept", value: "application/json" }]);
   const [body,     setBody]     = useState("");
   const [bodyType, setBodyType] = useState("none");
-  const [outTab,   setOutTab]   = useState("curl");
+  const [tab,      setTab]      = useState("headers");
+  const [codeTab,  setCodeTab]  = useState("curl");
   const [response, setResponse] = useState(null);
   const [loading,  setLoading]  = useState(false);
   const [reqError, setReqError] = useState(null);
@@ -61,6 +76,7 @@ export function HttpBuilder() {
   const addHeader = () => setHeaders(h => [...h, { key: "", value: "" }]);
   const delHeader = i => setHeaders(h => h.filter((_, j) => j !== i));
   const setHeader = (i, field, val) => setHeaders(h => h.map((x, j) => j === i ? { ...x, [field]: val } : x));
+  const activeHeaderCount = headers.filter(h => h.key.trim()).length;
 
   const applyPreset = p => {
     setMethod(p.data.method); setUrl(p.data.url);
@@ -106,88 +122,98 @@ export function HttpBuilder() {
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 
       {/* Presets */}
-      <div>
-        <Label>Presets</Label>
-        <Row gap={6}>
-          {PRESETS.map(p => (
-            <Btn key={p.label} small variant="default" onClick={() => applyPreset(p)}>{p.label}</Btn>
-          ))}
-        </Row>
+      <Row gap={6}>
+        {PRESETS.map(p => (
+          <Btn key={p.label} small variant="default" onClick={() => applyPreset(p)}>{p.label}</Btn>
+        ))}
+      </Row>
+
+      {/* Method + URL — hero bar */}
+      <div style={{ display: "flex", gap: 10 }}>
+        <select value={method} onChange={e => setMethod(e.target.value)}
+          style={{ ...inputStyle({ width: 130, fontWeight: 700, fontSize: 13, padding: "10px 14px", color: METHOD_COLORS[method] || T.text, flexShrink: 0, cursor: "pointer" }) }}>
+          {METHODS.map(m => <option key={m} value={m}>{m}</option>)}
+        </select>
+        <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://api.example.com/endpoint"
+          onKeyDown={e => e.key === "Enter" && sendRequest()}
+          style={{ ...inputStyle({ flex: 1, fontSize: 13, padding: "10px 14px" }) }} onFocus={onFocus} onBlur={onBlur} />
+        <Btn variant="accent" onClick={sendRequest} disabled={loading || !url.trim()}>
+          {loading ? "Sending…" : "▶ Send"}
+        </Btn>
       </div>
 
-      {/* Method + URL */}
-      <div>
-        <Label>Request</Label>
-        <div style={{ display: "flex", gap: 8 }}>
-          <select value={method} onChange={e => setMethod(e.target.value)}
-            style={{ ...inputStyle({ width: 110, fontWeight: 700, color: METHOD_COLORS[method] || T.text, flexShrink: 0 }) }}>
-            {METHODS.map(m => <option key={m} value={m}>{m}</option>)}
-          </select>
-          <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://..."
-            style={{ ...inputStyle({ flex: 1 }) }} onFocus={onFocus} onBlur={onBlur} />
-          <Btn variant="accent" onClick={sendRequest} disabled={loading || !url.trim()}>
-            {loading ? "Sending…" : "▶ Send"}
-          </Btn>
-        </div>
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: 4, borderBottom: `1px solid ${T.border}` }}>
+        <button style={tabStyle(tab === "headers")} onClick={() => setTab("headers")}>
+          Headers{activeHeaderCount > 0 ? ` · ${activeHeaderCount}` : ""}
+        </button>
+        <button style={tabStyle(tab === "body")} onClick={() => setTab("body")}>
+          Body{bodyType !== "none" ? ` · ${bodyType}` : ""}
+        </button>
+        <button style={tabStyle(tab === "code")} onClick={() => setTab("code")}>
+          Code
+        </button>
       </div>
 
-      <Row>
-        {/* Left — Headers + Body */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* Panel */}
+      <div style={{ minHeight: PANEL_MIN_HEIGHT, display: "flex", flexDirection: "column" }}>
 
-          {/* Headers */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-              <Label>Headers</Label>
-              <Btn small onClick={addHeader}>+ Add</Btn>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-              {headers.map((h, i) => (
-                <div key={i} style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  <input value={h.key}   onChange={e => setHeader(i, "key",   e.target.value)} placeholder="Header-Name"
-                    style={{ ...inputStyle({ flex: 1 }) }} onFocus={onFocus} onBlur={onBlur} />
-                  <input value={h.value} onChange={e => setHeader(i, "value", e.target.value)} placeholder="value"
-                    style={{ ...inputStyle({ flex: 2 }) }} onFocus={onFocus} onBlur={onBlur} />
-                  <Btn small variant="red" onClick={() => delHeader(i)}>✕</Btn>
-                </div>
-              ))}
-            </div>
+        {tab === "headers" && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 8 }}>
+            {headers.map((h, i) => (
+              <div key={i} style={{ display: "flex", gap: 8, alignItems: "center", width: "100%" }}>
+                <input value={h.key}   onChange={e => setHeader(i, "key",   e.target.value)} placeholder="Header-Name"
+                  style={{ ...inputStyle({ flex: 1 }) }} onFocus={onFocus} onBlur={onBlur} />
+                <input value={h.value} onChange={e => setHeader(i, "value", e.target.value)} placeholder="value"
+                  style={{ ...inputStyle({ flex: 2 }) }} onFocus={onFocus} onBlur={onBlur} />
+                <Btn small variant="red" onClick={() => delHeader(i)}>✕</Btn>
+              </div>
+            ))}
+            <Btn small onClick={addHeader}>+ Add header</Btn>
+            {headers.length === 0 && (
+              <div style={{ fontFamily: "var(--mono)", fontSize: 12, color: T.dim, fontStyle: "italic", padding: "8px 2px" }}>
+                No headers yet.
+              </div>
+            )}
           </div>
+        )}
 
-          {/* Body */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-              <Label>Body</Label>
-              <Row gap={4}>
-                {BODY_TYPES.map(t => (
-                  <Btn key={t} small variant={bodyType === t ? "accent" : "default"} onClick={() => setBodyType(t)}>{t}</Btn>
-                ))}
-              </Row>
-            </div>
-            {bodyType !== "none" && (
+        {tab === "body" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+            <Row gap={6}>
+              {BODY_TYPES.map(t => (
+                <Btn key={t} small variant={bodyType === t ? "accent" : "default"} onClick={() => setBodyType(t)}>{t}</Btn>
+              ))}
+            </Row>
+            {bodyType === "none" ? (
+              <div style={{ flex: 1, minHeight: 240, display: "flex", alignItems: "center", justifyContent: "center", border: `2px dashed ${T.border}`, borderRadius: 6, color: T.dim, fontFamily: "var(--mono)", fontSize: 12, fontStyle: "italic", textAlign: "center", padding: 20 }}>
+                This request has no body.<br/>Pick json / form / text above to add one.
+              </div>
+            ) : (
               <textarea value={body} onChange={e => setBody(e.target.value)}
-                rows={6} spellCheck={false} placeholder={bodyType === "json" ? '{\n  "key": "value"\n}' : "key=value&foo=bar"}
-                style={{ width: "100%", ...inputStyle({ lineHeight: 1.6, fontSize: 12 }) }}
+                spellCheck={false} placeholder={bodyType === "json" ? '{\n  "key": "value"\n}' : "key=value&foo=bar"}
+                style={{ width: "100%", flex: 1, minHeight: 240, resize: "none", ...inputStyle({ lineHeight: 1.6, fontSize: 12 }) }}
                 onFocus={onFocus} onBlur={onBlur} />
             )}
           </div>
-        </div>
+        )}
 
-        {/* Right — Code output */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Row gap={4}>
-              {OUTPUT_TABS.map(t => (
-                <Btn key={t} small variant={outTab === t ? "accent" : "default"} onClick={() => setOutTab(t)}>{t}</Btn>
-              ))}
-            </Row>
-            <CopyBtn text={outputs[outTab]} />
+        {tab === "code" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <Row gap={4}>
+                {CODE_TABS.map(t => (
+                  <Btn key={t} small variant={codeTab === t ? "accent" : "default"} onClick={() => setCodeTab(t)}>{t}</Btn>
+                ))}
+              </Row>
+              <CopyBtn text={outputs[codeTab]} />
+            </div>
+            <pre style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "14px 16px", fontFamily: "var(--mono)", fontSize: 11, color: T.mid, lineHeight: 1.8, overflow: "auto", flex: 1, minHeight: 240, whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}>
+              {outputs[codeTab] || <span style={{ color: T.dim, fontStyle: "italic" }}>Enter a URL to generate code…</span>}
+            </pre>
           </div>
-          <pre style={{ background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "14px 16px", fontFamily: "var(--mono)", fontSize: 11, color: T.mid, lineHeight: 1.8, overflow: "auto", flex: 1, whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0, minHeight: 180 }}>
-            {outputs[outTab] || <span style={{ color: T.dim, fontStyle: "italic" }}>Enter a URL to generate code…</span>}
-          </pre>
-        </div>
-      </Row>
+        )}
+      </div>
 
       {/* Response */}
       {reqError && (
@@ -198,12 +224,11 @@ export function HttpBuilder() {
 
       {response && (
         <Card>
-          <div style={{ display: "flex", gap: 20, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 22, fontWeight: 700, color: statusColor(response.status) }}>
-              {response.status}
-            </div>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 12, color: T.mid }}>{response.statusText}</div>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: T.dim }}>{response.elapsed}ms</div>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
+            <span style={{ fontFamily: "var(--mono)", fontSize: 16, fontWeight: 700, padding: "4px 12px", borderRadius: 5, background: statusColor(response.status) + "18", border: `1px solid ${statusColor(response.status)}55`, color: statusColor(response.status) }}>
+              {response.status} {response.statusText}
+            </span>
+            <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: T.dim }}>{response.elapsed}ms</span>
             <div style={{ flex: 1 }} />
             <CopyBtn text={response.text} />
           </div>

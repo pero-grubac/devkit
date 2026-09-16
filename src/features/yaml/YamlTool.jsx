@@ -93,7 +93,9 @@ export function YamlTool() {
 
       <Row style={{ alignItems: "stretch" }}>
         <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
-          <Label>{active?.inLabel}</Label>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 24 }}>
+            <Label>{active?.inLabel}</Label>
+          </div>
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -105,7 +107,7 @@ export function YamlTool() {
         </div>
 
         <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 24 }}>
             <Label>{active?.outLabel}</Label>
             {output && <><CopyBtn text={output} /><SaveBtn content={output} toolId="yaml" toolLabel="YAML" /></>}
           </div>

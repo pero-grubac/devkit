@@ -325,8 +325,8 @@ export function QrTool() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <Row>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
+      <Row style={{ alignItems: "stretch" }}>
+        <div style={{ flex: 1, minWidth: 280, display: "flex", flexDirection: "column", gap: 10 }}>
           <div>
             <Label>Content</Label>
             <Textarea value={text} onChange={setText} rows={5} placeholder="Enter text, URL, WiFi credentials…" />
@@ -363,16 +363,19 @@ export function QrTool() {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-          <Card style={{ padding: 16, display: "inline-flex", background: "#14141e", border: `1px solid ${T.border}` }}>
-            {error ? (
-              <div style={{ width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", color: T.red, fontFamily: "var(--mono)", fontSize: 11, textAlign: "center", padding: 10 }}>{error}</div>
-            ) : !text.trim() ? (
-              <div style={{ width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", color: T.dim, fontFamily: "var(--mono)", fontSize: 12 }}>Enter text</div>
-            ) : (
-              <canvas ref={canvasRef} style={{ imageRendering: "pixelated" }} />
-            )}
-          </Card>
+        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div>
+            <Label>Preview</Label>
+            <Card style={{ padding: 16, display: "inline-flex", background: "#14141e", border: `1px solid ${T.border}` }}>
+              {error ? (
+                <div style={{ width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", color: T.red, fontFamily: "var(--mono)", fontSize: 11, textAlign: "center", padding: 10 }}>{error}</div>
+              ) : !text.trim() ? (
+                <div style={{ width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", color: T.dim, fontFamily: "var(--mono)", fontSize: 12 }}>Enter text</div>
+              ) : (
+                <canvas ref={canvasRef} style={{ imageRendering: "pixelated" }} />
+              )}
+            </Card>
+          </div>
 
           <Btn variant="accent" onClick={download} disabled={!!error || !text.trim()}>↓ Download PNG</Btn>
 
