@@ -18,31 +18,39 @@ export function Sidebar({ tab, setTab, collapsed, setCollapsed }) {
       {/* Logo row */}
       <div style={{
         display: "flex", alignItems: "center", gap: 10,
-        padding: "15px 12px 13px",
+        justifyContent: collapsed ? "center" : "flex-start",
+        padding: collapsed ? "15px 0 13px" : "15px 12px 13px",
         borderBottom: `1px solid ${T.border}`,
         flexShrink: 0,
       }}>
-        <div style={{
-          width: 26, height: 26, borderRadius: 6, flexShrink: 0,
-          background: `linear-gradient(135deg, ${T.acc}, ${T.acc2})`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "#fff" }}>D</span>
-        </div>
-
         {!collapsed && (
-          <span style={{
-            fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600,
-            color: T.text, letterSpacing: "-0.02em", whiteSpace: "nowrap",
-          }}>
-            DevKit
-          </span>
+          <>
+            <div style={{
+              width: 26, height: 26, borderRadius: 6, flexShrink: 0,
+              background: `linear-gradient(135deg, ${T.acc}, ${T.acc2})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "#fff" }}>D</span>
+            </div>
+
+            <span style={{
+              fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600,
+              color: T.text, letterSpacing: "-0.02em", whiteSpace: "nowrap",
+            }}>
+              DevKit
+            </span>
+          </>
         )}
 
         <button
           onClick={() => setCollapsed(!collapsed)}
           title={collapsed ? "Expand" : "Collapse"}
-          style={{
+          style={collapsed ? {
+            width: 26, height: 26, borderRadius: 6, flexShrink: 0,
+            background: `linear-gradient(135deg, ${T.acc}, ${T.acc2})`,
+            border: "none", cursor: "pointer", color: "#fff",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          } : {
             marginLeft: "auto", background: "none", border: "none",
             cursor: "pointer", color: T.dim, padding: 2,
             borderRadius: 3, display: "flex", flexShrink: 0, opacity: 0.6,
