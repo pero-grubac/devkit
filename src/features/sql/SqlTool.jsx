@@ -14,6 +14,12 @@ const KEYWORDS = new Set([
   "ASC","DESC","INNER","OUTER","CROSS","NATURAL","USING",
 ]);
 
+// Longest first so e.g. "->>" wins over "->"
+const OPERATORS = [
+  "#>>","->>","#-","->","#>","::","<=",">=","<>","!=","||","@>","<@","?|","?&",
+  "&&","<<",">>","!~*","~*","!~",
+];
+
 function tokenize(sql) {
   const tokens = [];
   let i = 0;
@@ -52,6 +58,9 @@ function tokenize(sql) {
     if (sql[i] === ")") { tokens.push({ type: "rparen", val: ")" }); i++; continue; }
     if (sql[i] === ",") { tokens.push({ type: "comma",  val: "," }); i++; continue; }
     if (sql[i] === ";") { tokens.push({ type: "semi",   val: ";" }); i++; continue; }
+    // multi-char operators (JSON ->>, casts ::, comparisons, etc.)
+    const op = OPERATORS.find(o => sql.startsWith(o, i));
+    if (op) { tokens.push({ type: "op", val: op }); i += op.length; continue; }
     tokens.push({ type: "other", val: sql[i] }); i++;
   }
   return tokens;
@@ -101,7 +110,7 @@ function format(sql, indent = 2) {
 }
 
 function highlight(sql) {
-  return sql.replace(
+  return sql.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(
     /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`|-?\d+(?:\.\d*)?|\b(?:SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|FULL|CROSS|ON|AND|OR|NOT|IN|IS|NULL|AS|DISTINCT|GROUP|BY|ORDER|HAVING|LIMIT|OFFSET|UNION|ALL|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|TABLE|DROP|ALTER|ADD|WITH|CASE|WHEN|THEN|ELSE|END|BETWEEN|LIKE|ASC|DESC)\b)/gi,
     (m) => {
       if (/^["'`]/.test(m)) return `<span style="color:${T.green}">${m}</span>`;
