@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { T } from "../../shared/theme";
 import { Input, Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { parseUrl, buildUrl, encodeParam, decodeParam } from "./url";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const DEMO = "https://api.example.com:8080/v2/users?page=1&limit=20&sort=created_at&order=desc#results";
 
@@ -11,20 +12,20 @@ const MODES = [
   { id: "encode",  label: "Encode/Decode"},
 ];
 
+const Field = ({ label, value, accent }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0", borderBottom: `1px solid ${T.border}` }}>
+    <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: "0.18em", color: T.dim, textTransform: "uppercase", width: 80, flexShrink: 0 }}>{label}</div>
+    <div style={{ flex: 1, fontFamily: "var(--mono)", fontSize: 12, color: accent ? T.acc : T.text, wordBreak: "break-all" }}>
+      {value || <span style={{ color: T.dim, fontStyle: "italic" }}>—</span>}
+    </div>
+    {value && <CopyBtn text={value} />}
+  </div>
+);
+
 // ─── Parse mode ──────────────────────────────────────────────────────────────
 function ParseMode() {
-  const [input, setInput] = useState(DEMO);
+  const [input, setInput] = usePersistentState("url", "input", DEMO);
   const parsed = parseUrl(input);
-
-  const Field = ({ label, value, accent }) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0", borderBottom: `1px solid ${T.border}` }}>
-      <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: "0.18em", color: T.dim, textTransform: "uppercase", width: 80, flexShrink: 0 }}>{label}</div>
-      <div style={{ flex: 1, fontFamily: "var(--mono)", fontSize: 12, color: accent ? T.acc : T.text, wordBreak: "break-all" }}>
-        {value || <span style={{ color: T.dim, fontStyle: "italic" }}>—</span>}
-      </div>
-      {value && <CopyBtn text={value} />}
-    </div>
-  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -75,17 +76,17 @@ function ParseMode() {
 
 // ─── Build mode ──────────────────────────────────────────────────────────────
 function BuildMode() {
-  const [protocol, setProtocol] = useState("https");
-  const [host,     setHost]     = useState("api.example.com");
-  const [port,     setPort]     = useState("");
-  const [path,     setPath]     = useState("/v1/users");
-  const [params,   setParams]   = useState([{ key: "page", value: "1" }, { key: "limit", value: "20" }]);
-  const [hash,     setHash]     = useState("");
-  const [output,   setOutput]   = useState("");
+  const [protocol, setProtocol] = usePersistentState("url", "protocol", "https");
+  const [host,     setHost]     = usePersistentState("url", "host", "api.example.com");
+  const [port,     setPort]     = usePersistentState("url", "port", "");
+  const [path,     setPath]     = usePersistentState("url", "path", "/v1/users");
+  const [params,   setParams]   = usePersistentState("url", "params", [{ key: "page", value: "1" }, { key: "limit", value: "20" }]);
+  const [hash,     setHash]     = usePersistentState("url", "hash", "");
 
-  useEffect(() => {
-    setOutput(buildUrl({ protocol, host, port, path, params, hash }));
-  }, [protocol, host, port, path, params, hash]);
+  const output = useMemo(
+    () => buildUrl({ protocol, host, port, path, params, hash }),
+    [protocol, host, port, path, params, hash],
+  );
 
   const addParam  = () => setParams(p => [...p, { key: "", value: "" }]);
   const delParam  = i  => setParams(p => p.filter((_, j) => j !== i));
@@ -157,7 +158,7 @@ function BuildMode() {
 
 // ─── Encode/Decode mode ───────────────────────────────────────────────────────
 function EncodeMode() {
-  const [input,  setInput]  = useState("hello world & foo=bar+baz");
+  const [input,  setInput]  = usePersistentState("url", "encode", "hello world & foo=bar+baz");
   const encoded = encodeParam(input);
   const decoded = decodeParam(input);
 
@@ -193,7 +194,7 @@ function EncodeMode() {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function UrlParser() {
-  const [mode, setMode] = useState("parse");
+  const [mode, setMode] = usePersistentState("url", "mode", "parse");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

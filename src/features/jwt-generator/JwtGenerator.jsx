@@ -2,6 +2,8 @@ import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Input, Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { signJwt, nowSec, expSec } from "./sign";
+import { syntaxHL } from "../json-formatter/format";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const ALGS    = ["HS256", "HS384", "HS512"];
 const EXPIRES = [
@@ -20,12 +22,12 @@ const DEFAULT_PAYLOAD = `{
 }`;
 
 export function JwtGenerator() {
-  const [mode,    setMode]    = useState("decode");
+  const [mode,    setMode]    = usePersistentState("jwt", "mode", "decode");
   const [token,   setToken]   = useState("");
-  const [payload, setPayload] = useState(DEFAULT_PAYLOAD);
+  const [payload, setPayload] = usePersistentState("jwt", "payload", DEFAULT_PAYLOAD);
   const [secret,  setSecret]  = useState("your-secret-key");
-  const [alg,     setAlg]     = useState("HS256");
-  const [expires, setExpires] = useState(EXPIRES[1]);
+  const [alg,     setAlg]     = usePersistentState("jwt", "alg", "HS256");
+  const [expires, setExpires] = usePersistentState("jwt", "expires", EXPIRES[1]);
   const [result,  setResult]  = useState("");
   const [error,   setError]   = useState(null);
   const [signing, setSigning] = useState(false);
@@ -55,17 +57,6 @@ export function JwtGenerator() {
     if (s < 3600) return Math.floor(s/60) + "m";
     return Math.floor(s/3600) + "h " + Math.floor((s%3600)/60) + "m";
   };
-
-  const syntaxHL = json => json.replace(
-    /(\"(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*\"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
-    m => {
-      let cls = "jn";
-      if (/^"/.test(m)) cls = /:$/.test(m) ? "jk" : "js";
-      else if (/true|false/.test(m)) cls = "jb";
-      else if (/null/.test(m)) cls = "jnull";
-      return `<span class="${cls}">${m}</span>`;
-    }
-  );
 
   const preStyle = { background: T.s2, border: `1px solid ${T.border}`, borderRadius: 6, padding: "12px 14px", fontFamily: "var(--mono)", fontSize: 12, lineHeight: 1.7, overflowX: "auto", whiteSpace: "pre-wrap", margin: 0 };
 

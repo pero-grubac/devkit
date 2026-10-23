@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Input, Card, Label, Btn, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 function ipToLong(ip) {
   return ip.split(".").reduce((acc, o) => (acc << 8) + parseInt(o), 0) >>> 0;
@@ -73,8 +73,18 @@ function isValidIPv6(ip) {
          /^:(:[0-9a-fA-F]{0,4}){1,7}$/.test(ip);
 }
 
+const InfoRow = ({ label, value, mono = true, color }) => (
+  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "7px 0", borderBottom: `1px solid ${T.border}` }}>
+    <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: "0.18em", color: T.dim, textTransform: "uppercase", paddingTop: 2 }}>{label}</div>
+    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      <div style={{ fontFamily: mono ? "var(--mono)" : "var(--sans)", fontSize: 12, color: color || T.mid, textAlign: "right" }}>{value}</div>
+      {value && <CopyBtn text={String(value)} />}
+    </div>
+  </div>
+);
+
 export function IpTool() {
-  const [input, setInput] = useState("192.168.1.100/24");
+  const [input, setInput] = usePersistentState("ip", "input", "192.168.1.100/24");
 
   const isCIDR = input.includes("/");
   const ipOnly = isCIDR ? input.split("/")[0] : input;
@@ -83,16 +93,6 @@ export function IpTool() {
   const v6valid = !isCIDR && isValidIPv6(input);
   const cidr    = isCIDR && v4valid ? parseCIDR(input) : null;
   const error   = input.trim() && !v4valid && !v6valid ? "Invalid IP address or CIDR notation" : null;
-
-  const InfoRow = ({ label, value, mono = true, color }) => (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "7px 0", borderBottom: `1px solid ${T.border}` }}>
-      <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: "0.18em", color: T.dim, textTransform: "uppercase", paddingTop: 2 }}>{label}</div>
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <div style={{ fontFamily: mono ? "var(--mono)" : "var(--sans)", fontSize: 12, color: color || T.mid, textAlign: "right" }}>{value}</div>
-        {value && <CopyBtn text={String(value)} />}
-      </div>
-    </div>
-  );
 
   const EXAMPLES = ["8.8.8.8", "192.168.1.1/24", "10.0.0.0/8", "172.16.5.10/12", "2001:0db8::1"];
 

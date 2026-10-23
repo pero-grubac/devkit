@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { T } from "../shared/theme";
-import { useSnippets } from "../shared/SnippetContext";
+import { useSnippets } from "../shared/useSnippets";
 import { TABS } from "../shared/registry";
 
 function timeAgo(ts) {

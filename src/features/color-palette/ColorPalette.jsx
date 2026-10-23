@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { generatePalette, toCssVars, toTailwind } from "./palette";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const OUTPUT_MODES = ["Shades", "Harmonies", "CSS Vars", "Tailwind"];
 
@@ -32,11 +33,11 @@ function Swatch({ hex, label, size = 40 }) {
 }
 
 export function ColorPalette() {
-  const [input,   setInput]   = useState("#7c6cf5");
+  const [input,   setInput]   = usePersistentState("palette", "input", "#7c6cf5");
   const [hex,     setHex]     = useState("#7c6cf5");
-  const [output,  setOutput]  = useState("Shades");
+  const [output,  setOutput]  = usePersistentState("palette", "output", "Shades");
   const [palette, setPalette] = useState(null);
-  const [varName, setVarName] = useState("primary");
+  const [varName, setVarName] = usePersistentState("palette", "varName", "primary");
 
   useEffect(() => {
     const v = input.trim();

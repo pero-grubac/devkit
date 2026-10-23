@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { T } from "../../shared/theme";
-import { Textarea, Input, Btn, Row, Label, ResultBox } from "../../shared/ui";
+import { Textarea, Input, Btn, Label, ResultBox } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const PRESETS = [
   { name: "Email", pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", flags: "g" },
@@ -24,17 +24,19 @@ function highlight(str, re) {
       last = m.index + m[0].length;
       if (m[0].length === 0) break;
     }
-  } catch {}
+  } catch {
+    // An invalid pattern just stops highlighting; the matches found so far are kept
+  }
   parts.push(<span key={last}>{str.slice(last)}</span>);
   return parts;
 }
 
 export function RegexTool() {
-  const [pattern, setPattern]       = useState("");
-  const [flags, setFlags]           = useState("g");
-  const [test, setTest]             = useState("Contact us at hello@example.com or visit https://example.com\nIP: 192.168.1.1, Date: 2024-05-21");
-  const [replace, setReplace]       = useState("");
-  const [showReplace, setShowReplace] = useState(false);
+  const [pattern, setPattern]       = usePersistentState("regex", "pattern", "");
+  const [flags, setFlags]           = usePersistentState("regex", "flags", "g");
+  const [test, setTest]             = usePersistentState("regex", "test", "Contact us at hello@example.com or visit https://example.com\nIP: 192.168.1.1, Date: 2024-05-21");
+  const [replace, setReplace]       = usePersistentState("regex", "replace", "");
+  const [showReplace, setShowReplace] = usePersistentState("regex", "showReplace", false);
 
   let re = null, err = null, matches = [], replaced = "";
   try {

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { T } from "../../shared/theme";
 import { Textarea, Row, Btn, Card, Label } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 // ─── Pure-JS QR Code encoder (Mode: byte, EC: L/M/Q/H) ──────────────────────
 // Reed-Solomon, data masking, format info — self-contained, no deps.
@@ -185,7 +186,7 @@ function applyMask(m, mask) {
   const size = m.length;
   const fns = [
     (r,c) => (r+c)%2===0,
-    (r,c) => r%2===0,
+    (r) => r%2===0,
     (r,c) => c%3===0,
     (r,c) => (r+c)%3===0,
     (r,c) => (Math.floor(r/2)+Math.floor(c/3))%2===0,
@@ -282,9 +283,9 @@ const EC_LEVELS = ["L","M","Q","H"];
 const SCALES = [3, 4, 6, 8];
 
 export function QrTool() {
-  const [text,    setText]    = useState("https://example.com");
-  const [ec,      setEc]      = useState("M");
-  const [scale,   setScale]   = useState(4);
+  const [text,    setText]    = usePersistentState("qr", "text", "https://example.com");
+  const [ec,      setEc]      = usePersistentState("qr", "ec", "M");
+  const [scale,   setScale]   = usePersistentState("qr", "scale", 4);
   const [error,   setError]   = useState(null);
   const canvasRef = useRef(null);
 

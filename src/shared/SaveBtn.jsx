@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { T } from "./theme";
-import { useSnippets } from "./SnippetContext";
+import { useSnippets } from "./useSnippets";
 
 export function SaveBtn({ content, toolId, toolLabel, defaultTitle = "" }) {
   const { add }  = useSnippets();

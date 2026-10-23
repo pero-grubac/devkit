@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { T } from "../../shared/theme";
 import { SaveBtn } from "../../shared/SaveBtn";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const SETS = {
   upper:   { chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ", label: "A–Z" },
@@ -42,10 +43,19 @@ function generatePassword(length, opts) {
   return Array.from(arr).map(n => pool[n % pool.length]).join("");
 }
 
+const SliderRow = ({ label, value, min, max, onChange }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: T.dim, width: 80, letterSpacing: "0.15em" }}>{label}</div>
+    <input type="range" min={min} max={max} value={value} onChange={e => onChange(+e.target.value)}
+      style={{ flex: 1, accentColor: T.acc }} />
+    <div style={{ fontFamily: "var(--mono)", fontSize: 13, fontWeight: 700, color: T.acc, width: 28, textAlign: "right" }}>{value}</div>
+  </div>
+);
+
 export function PasswordTool() {
-  const [length,  setLength]  = useState(20);
-  const [opts,    setOpts]    = useState({ upper: true, lower: true, digits: true, symbols: true, noAmbig: false });
-  const [batch,   setBatch]   = useState(5);
+  const [length,  setLength]  = usePersistentState("password", "length", 20);
+  const [opts,    setOpts]    = usePersistentState("password", "opts", { upper: true, lower: true, digits: true, symbols: true, noAmbig: false });
+  const [batch,   setBatch]   = usePersistentState("password", "batch", 5);
   const [passwords, setPasswords] = useState([]);
 
   const pool = (() => {
@@ -65,15 +75,6 @@ export function PasswordTool() {
   }, [length, opts, batch]);
 
   const toggle = (key) => setOpts(o => ({ ...o, [key]: !o[key] }));
-
-  const SliderRow = ({ label, value, min, max, onChange }) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: T.dim, width: 80, letterSpacing: "0.15em" }}>{label}</div>
-      <input type="range" min={min} max={max} value={value} onChange={e => onChange(+e.target.value)}
-        style={{ flex: 1, accentColor: T.acc }} />
-      <div style={{ fontFamily: "var(--mono)", fontSize: 13, fontWeight: 700, color: T.acc, width: 28, textAlign: "right" }}>{value}</div>
-    </div>
-  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>

@@ -1,10 +1,9 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import {
   loadSnippets, saveSnippet, deleteSnippet,
   renameSnippet, clearSnippets,
 } from "./snippets";
-
-const Ctx = createContext(null);
+import { SnippetCtx as Ctx } from "./useSnippets";
 
 export function SnippetProvider({ children }) {
   const [snippets, setSnippets] = useState(() => loadSnippets());
@@ -35,10 +34,4 @@ export function SnippetProvider({ children }) {
       {children}
     </Ctx.Provider>
   );
-}
-
-export function useSnippets() {
-  const ctx = useContext(Ctx);
-  if (!ctx) throw new Error("useSnippets must be used inside <SnippetProvider>");
-  return ctx;
 }

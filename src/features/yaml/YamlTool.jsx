@@ -3,6 +3,7 @@ import { T } from "../../shared/theme";
 import { Row, Btn, Label, CopyBtn, ErrorBox, OutputBox } from "../../shared/ui";
 import { pythonDictToJson } from "./pythonDict";
 import { SaveBtn } from "../../shared/SaveBtn";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const CDN_JSYAML = "https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js";
 
@@ -32,11 +33,11 @@ const SAMPLES = {
 };
 
 export function YamlTool() {
-  const [mode,   setMode]   = useState("json2yaml");
-  const [input,  setInput]  = useState(SAMPLES.json2yaml);
+  const [mode,   setMode]   = usePersistentState("yaml", "mode", "json2yaml");
+  const [input,  setInput]  = usePersistentState("yaml", "input", SAMPLES.json2yaml);
   const [output, setOutput] = useState("");
   const [error,  setError]  = useState(null);
-  const [indent, setIndent] = useState(2);
+  const [indent, setIndent] = usePersistentState("yaml", "indent", 2);
   const [ready,  setReady]  = useState(false);
   const yaml = useRef(null);
 

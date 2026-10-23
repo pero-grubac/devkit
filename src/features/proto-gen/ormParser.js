@@ -137,9 +137,6 @@ export function parseDjangoOrm(src) {
       };
 
       if (djangoType === "ForeignKey" || djangoType === "OneToOneField") {
-        // Extract the referenced model name
-        const toMatch = fr[0].match(/\(["']?(\w+)["']?/);
-        protoType = toMatch ? toMatch[1] : "string";
         fields.push({
           name: fieldName + "_id",
           rawType: "int64",
@@ -241,8 +238,8 @@ export function parsePydantic(src) {
 export function parseEntityFramework(src) {
   const messages = [];
   const classRe = /public\s+class\s+(\w+)\s*(?::\s*[\w<>, ]+)?\s*\{/g;
-  const propRe = /\[.*?\]\s*public\s+([\w<>?\[\]]+)\s+(\w+)\s*\{\s*get/g;
-  const plainRe = /public\s+([\w<>?\[\]]+)\s+(\w+)\s*\{\s*get/g;
+  const propRe = /\[.*?\]\s*public\s+([\w<>?[\]]+)\s+(\w+)\s*\{\s*get/g;
+  const plainRe = /public\s+([\w<>?[\]]+)\s+(\w+)\s*\{\s*get/g;
   let cm;
   while ((cm = classRe.exec(src)) !== null) {
     const name = cm[1];
@@ -422,7 +419,7 @@ export function parseTypeOrm(src) {
     // @Column() / @PrimaryGeneratedColumn() / @CreateDateColumn() etc.
     // followed by fieldName: type
     const colRe =
-      /(?:@(?:PrimaryGeneratedColumn|PrimaryColumn|Column|CreateDateColumn|UpdateDateColumn|DeleteDateColumn)\([^)]*\)\s*)+(\w+)\s*[?!]?\s*:\s*([\w<>|\[\] ]+)/g;
+      /(?:@(?:PrimaryGeneratedColumn|PrimaryColumn|Column|CreateDateColumn|UpdateDateColumn|DeleteDateColumn)\([^)]*\)\s*)+(\w+)\s*[?!]?\s*:\s*([\w<>|[\] ]+)/g;
     let fr;
     while ((fr = colRe.exec(block)) !== null) {
       const fName = fr[1];

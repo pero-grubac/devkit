@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
-import { Input, Row, Card, Label, Btn, CopyBtn } from "../../shared/ui";
+import { Input, Row, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 function parseSemver(str) {
-  const m = str.trim().replace(/^v/, "").match(/^(\d+)\.(\d+)\.(\d+)(?:-([^\+]+))?(?:\+(.+))?$/);
+  const m = str.trim().replace(/^v/, "").match(/^(\d+)\.(\d+)\.(\d+)(?:-([^+]+))?(?:\+(.+))?$/);
   if (!m) return null;
   return {
     major: parseInt(m[1]),
@@ -40,9 +40,9 @@ function bump(v, type) {
 }
 
 export function SemverTool() {
-  const [input, setInput]   = useState("1.4.2");
-  const [vA,    setVA]      = useState("1.4.2");
-  const [vB,    setVB]      = useState("2.0.0-beta.1");
+  const [input, setInput]   = usePersistentState("semver", "input", "1.4.2");
+  const [vA,    setVA]      = usePersistentState("semver", "vA", "1.4.2");
+  const [vB,    setVB]      = usePersistentState("semver", "vB", "2.0.0-beta.1");
 
   const parsed = parseSemver(input);
   const pA = parseSemver(vA);

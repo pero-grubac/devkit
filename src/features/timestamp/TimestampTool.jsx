@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
 import { Input, Btn, Row, Card, Label, CopyBtn } from "../../shared/ui";
 import { formatDate, FORMAT_TOKENS, COMMON_ZONES, zoneSnapshot, dayOfYear, isoWeek, quarter, isLeapYear } from "./timeFormat";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const PRESETS = [
   { label: "Now",          val: () => String(Math.floor(Date.now() / 1000)) },
@@ -35,9 +36,9 @@ function FormatCard({ label, value }) {
 }
 
 export function TimestampTool() {
-  const [input,   setInput]   = useState(String(Math.floor(Date.now() / 1000)));
-  const [now,     setNow]     = useState(Date.now());
-  const [pattern, setPattern] = useState("YYYY-MM-DD HH:mm:ss");
+  const [input,   setInput]   = useState(() => String(Math.floor(Date.now() / 1000)));
+  const [now,     setNow]     = useState(() => Date.now());
+  const [pattern, setPattern] = usePersistentState("time", "pattern", "YYYY-MM-DD HH:mm:ss");
 
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);

@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { T } from "../../shared/theme";
-import { Input, Card, Label } from "../../shared/ui";
+import { Input, Label } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const CODES = [
   // 1xx
@@ -328,7 +329,7 @@ function groupLabel(code) {
 }
 
 export function HttpStatusTool() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = usePersistentState("http", "query", "");
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();

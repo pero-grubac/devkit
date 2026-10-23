@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { T } from "../../shared/theme";
 import { Textarea, Row, Btn, Card, Label, CopyBtn, ErrorBox, OutputBox } from "../../shared/ui";
 import { syntaxHL, parseJson, jsonStats } from "./format";
 import { SaveBtn } from "../../shared/SaveBtn";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 export function JsonFormatter() {
-  const [input,  setInput]  = useState('{\n  "name": "devkit",\n  "version": "1.0.0",\n  "active": true\n}');
-  const [indent, setIndent] = useState(2);
-  const [result, setResult] = useState({ ok: false, parsed: null, error: null });
-
-  useEffect(() => {
-    setResult(parseJson(input));
-  }, [input]);
+  const [input,  setInput]  = usePersistentState("json", "input", '{\n  "name": "devkit",\n  "version": "1.0.0",\n  "active": true\n}');
+  const [indent, setIndent] = usePersistentState("json", "indent", 2);
+  const result = useMemo(() => parseJson(input), [input]);
 
   const formatted = result.parsed != null ? JSON.stringify(result.parsed, null, indent) : "";
   const minified  = result.parsed != null ? JSON.stringify(result.parsed) : "";

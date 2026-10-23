@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { T } from "../../shared/theme";
 import { Btn, Row, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 function uuid4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -21,20 +22,20 @@ function cuid() {
 
 export function UuidTool() {
   const [uuids,     setUuids]     = useState([uuid4()]);
-  const [count,     setCount]     = useState(5);
-  const [format,    setFormat]    = useState("v4");
-  const [uppercase, setUppercase] = useState(false);
-  const [noDashes,  setNoDashes]  = useState(false);
+  const [count,     setCount]     = usePersistentState("uuid", "count", 5);
+  const [format,    setFormat]    = usePersistentState("uuid", "format", "v4");
+  const [uppercase, setUppercase] = usePersistentState("uuid", "uppercase", false);
+  const [noDashes,  setNoDashes]  = usePersistentState("uuid", "noDashes", false);
 
-  function gen() {
+  const gen = useCallback(() => {
     const fns = { v4: uuid4, v7: uuid7, cuid };
     let list = Array.from({ length: count }, fns[format] || uuid4);
     if (uppercase) list = list.map((s) => s.toUpperCase());
     if (noDashes)  list = list.map((s) => s.replace(/-/g, ""));
     setUuids(list);
-  }
+  }, [format, count, uppercase, noDashes]);
 
-  useEffect(() => { gen(); }, [format, count, uppercase, noDashes]);
+  useEffect(() => { gen(); }, [gen]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>

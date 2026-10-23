@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Input, Btn, Row, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const SUBS = [
   { id: "base",  label: "Base Converter" },
@@ -23,15 +24,15 @@ function lcg(seed) {
 }
 
 export function NumberTool() {
-  const [num,        setNum]        = useState("255");
-  const [sub,        setSub]        = useState("base");
-  const [rngMin,     setRngMin]     = useState("1");
-  const [rngMax,     setRngMax]     = useState("100");
-  const [rngSeed,    setRngSeed]    = useState("42");
-  const [rngCount,   setRngCount]   = useState("10");
+  const [num,        setNum]        = usePersistentState("number", "num", "255");
+  const [sub,        setSub]        = usePersistentState("number", "sub", "base");
+  const [rngMin,     setRngMin]     = usePersistentState("number", "rngMin", "1");
+  const [rngMax,     setRngMax]     = usePersistentState("number", "rngMax", "100");
+  const [rngSeed,    setRngSeed]    = usePersistentState("number", "rngSeed", "42");
+  const [rngCount,   setRngCount]   = usePersistentState("number", "rngCount", "10");
   const [rngResults, setRngResults] = useState([]);
-  const [precision,  setPrecision]  = useState("3");
-  const [roundInput, setRoundInput] = useState("3.14159265");
+  const [precision,  setPrecision]  = usePersistentState("number", "precision", "3");
+  const [roundInput, setRoundInput] = usePersistentState("number", "roundInput", "3.14159265");
 
   const n     = parseFloat(num);
   const isInt = !isNaN(n) && Number.isInteger(n) && n >= 0 && n <= Number.MAX_SAFE_INTEGER;

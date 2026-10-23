@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { T } from "../../shared/theme";
 import { Input, Card, Label, Btn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const PRESETS = [
   { label: "Every minute",       expr: "* * * * *" },
@@ -81,7 +82,7 @@ function nextRuns(expr, count = 8) {
   if (parts.length !== 5) return [];
   const [minP, hourP, domP, monthP, dowP] = parts;
 
-  function matches(val, n, min, max) {
+  function matches(val, n, min) {
     if (val === "*") return true;
     if (val.startsWith("*/")) { const s = parseInt(val.slice(2)); return (n - min) % s === 0; }
     if (val.includes(",")) return val.split(",").map(Number).includes(n);
@@ -96,11 +97,11 @@ function nextRuns(expr, count = 8) {
 
   for (let i = 0; i < 50000 && results.length < count; i++) {
     if (
-      matches(monthP, d.getMonth() + 1, 1, 12) &&
-      matches(domP,   d.getDate(),       1, 31) &&
-      matches(dowP,   d.getDay(),        0, 6)  &&
-      matches(hourP,  d.getHours(),      0, 23) &&
-      matches(minP,   d.getMinutes(),    0, 59)
+      matches(monthP, d.getMonth() + 1, 1) &&
+      matches(domP,   d.getDate(),       1) &&
+      matches(dowP,   d.getDay(),        0) &&
+      matches(hourP,  d.getHours(),      0) &&
+      matches(minP,   d.getMinutes(),    0)
     ) {
       results.push(new Date(d));
     }
@@ -110,23 +111,18 @@ function nextRuns(expr, count = 8) {
 }
 
 export function CronTool() {
-  const [expr,  setExpr]  = useState("0 9 * * 1-5");
-  const [desc,  setDesc]  = useState("");
-  const [runs,  setRuns]  = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
+  const [expr,  setExpr]  = usePersistentState("cron", "expr", "0 9 * * 1-5");
+  const { desc, runs, error } = useMemo(() => {
     const parts = expr.trim().split(/\s+/);
     if (parts.length !== 5) {
-      setError("Cron expression must have exactly 5 fields: min hour dom month dow");
-      setDesc(""); setRuns([]); return;
+      return { desc: "", runs: [], error: "Cron expression must have exactly 5 fields: min hour dom month dow" };
     }
     try {
       const d = describeCron(expr);
       const r = nextRuns(expr);
-      setDesc(d); setRuns(r); setError(null);
+      return { desc: d, runs: r, error: null };
     } catch(e) {
-      setError(e.message); setDesc(""); setRuns([]);
+      return { desc: "", runs: [], error: e.message };
     }
   }, [expr]);
 

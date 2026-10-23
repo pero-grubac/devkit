@@ -1,19 +1,22 @@
+// Single-quote for the shell; an embedded ' becomes '\'' so the command stays valid.
+const sq = s => `'${String(s).replace(/'/g, "'\\''")}'`;
+
 export function buildCurl({ method, url, headers, body, bodyType }) {
   if (!url) return "";
-  const lines = [`curl -X ${method} '${url}'`];
+  const lines = [`curl -X ${method} ${sq(url)}`];
 
   headers.forEach(({ key, value }) => {
-    if (key.trim()) lines.push(`  -H '${key}: ${value}'`);
+    if (key.trim()) lines.push(`  -H ${sq(`${key}: ${value}`)}`);
   });
 
   if (bodyType === "json" && body.trim()) {
     lines.push(`  -H 'Content-Type: application/json'`);
-    lines.push(`  -d '${body.trim()}'`);
+    lines.push(`  -d ${sq(body.trim())}`);
   } else if (bodyType === "form" && body.trim()) {
     lines.push(`  -H 'Content-Type: application/x-www-form-urlencoded'`);
-    lines.push(`  -d '${body.trim()}'`);
+    lines.push(`  -d ${sq(body.trim())}`);
   } else if (bodyType === "text" && body.trim()) {
-    lines.push(`  -d '${body.trim()}'`);
+    lines.push(`  -d ${sq(body.trim())}`);
   }
 
   return lines.join(" \\\n");

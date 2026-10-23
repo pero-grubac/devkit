@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Label, CopyBtn } from "../../shared/ui";
 import { SaveBtn } from "../../shared/SaveBtn";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 // Lightweight SQL formatter — no deps
 const KEYWORDS = new Set([
@@ -69,7 +70,6 @@ function tokenize(sql) {
 // Newline-before these keywords at top level
 const NEWLINE_BEFORE = new Set(["SELECT","FROM","WHERE","JOIN","LEFT","RIGHT","INNER","OUTER","FULL",
   "CROSS","GROUP","ORDER","HAVING","LIMIT","OFFSET","UNION","ON","SET","VALUES","RETURNING"]);
-const NEWLINE_AFTER_AND_OR = true;
 
 function format(sql, indent = 2) {
   const tokens = tokenize(sql);
@@ -123,13 +123,11 @@ function highlight(sql) {
 const SAMPLE = `SELECT u.id, u.name, u.email, COUNT(o.id) AS order_count, SUM(o.total) AS total_spent FROM users u LEFT JOIN orders o ON u.id = o.user_id WHERE u.created_at > '2024-01-01' AND u.active = 1 GROUP BY u.id, u.name, u.email HAVING COUNT(o.id) > 0 ORDER BY total_spent DESC LIMIT 50;`;
 
 export function SqlTool() {
-  const [input,  setInput]  = useState(SAMPLE);
-  const [indent, setIndent] = useState(2);
-  const [output, setOutput] = useState("");
-
-  useEffect(() => {
-    if (!input.trim()) { setOutput(""); return; }
-    try { setOutput(format(input, indent)); } catch(e) { setOutput(""); }
+  const [input,  setInput]  = usePersistentState("sql", "input", SAMPLE);
+  const [indent, setIndent] = usePersistentState("sql", "indent", 2);
+  const output = useMemo(() => {
+    if (!input.trim()) return "";
+    try { return format(input, indent); } catch { return ""; }
   }, [input, indent]);
 
   return (

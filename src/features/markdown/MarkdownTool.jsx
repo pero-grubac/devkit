@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const SAMPLE = `# Hello, Markdown
 
@@ -74,9 +75,9 @@ const PREVIEW_CSS = (T) => `
 `;
 
 export function MarkdownTool() {
-  const [input,   setInput]   = useState(SAMPLE);
+  const [input,   setInput]   = usePersistentState("markdown", "input", SAMPLE);
   const [html,    setHtml]    = useState("");
-  const [mode,    setMode]    = useState("split");
+  const [mode,    setMode]    = usePersistentState("markdown", "mode", "split");
   const [loading, setLoading] = useState(true);
   const markedRef = useRef(null);
 

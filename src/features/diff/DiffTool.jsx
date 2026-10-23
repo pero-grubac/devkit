@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { T } from "../../shared/theme";
 import { SaveBtn } from "../../shared/SaveBtn";
 import { Textarea, Btn, Row, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 function computeDiff(a, b) {
   const aL = a.split("\n"), bL = b.split("\n");
@@ -51,9 +51,9 @@ function renderCD(a, b, side) {
 }
 
 export function DiffTool() {
-  const [left,     setLeft]     = useState("");
-  const [right,    setRight]    = useState("");
-  const [ignoreWS, setIgnoreWS] = useState(false);
+  const [left,     setLeft]     = usePersistentState("diff", "left", "");
+  const [right,    setRight]    = usePersistentState("diff", "right", "");
+  const [ignoreWS, setIgnoreWS] = usePersistentState("diff", "ignoreWS", false);
 
   const norm = (s) => ignoreWS ? s.split("\n").map((l) => l.trim()).join("\n") : s;
   const ops  = left || right ? computeDiff(norm(left), norm(right)) : [];

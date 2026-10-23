@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { analyzeFloat32, analyzeFloat64, INTERESTING } from "./ieee754";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 function BitField({ bits, color, label, width }) {
   return (
@@ -28,8 +28,8 @@ function BitField({ bits, color, label, width }) {
 }
 
 export function Ieee754() {
-  const [input, setInput]     = useState("0.1");
-  const [precision, setPrec]  = useState(32);
+  const [input, setInput]     = usePersistentState("ieee754", "input", "0.1");
+  const [precision, setPrec]  = usePersistentState("ieee754", "precision", 32);
 
   const num = parseFloat(input);
   const valid = !isNaN(num) || input.trim() === "Infinity" || input.trim() === "-Infinity" || input.trim() === "NaN";

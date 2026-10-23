@@ -2,9 +2,10 @@ import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { PERMS, BITS, DEFAULT_STATE, stateToOctal, stateToSymbolic, octalToState, symbolicToState, PRESETS } from "./chmod";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 export function Chmod() {
-  const [state,    setState]    = useState(DEFAULT_STATE);
+  const [state,    setState]    = usePersistentState("chmod", "state", DEFAULT_STATE);
   const [octalIn,  setOctalIn]  = useState("");
   const [symIn,    setSymIn]    = useState("");
   const [parseErr, setParseErr] = useState(null);

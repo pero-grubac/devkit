@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { T } from "../../shared/theme";
-import { Btn, Label, Card } from "../../shared/ui";
+import { Btn, Label } from "../../shared/ui";
 import { SaveBtn } from "../../shared/SaveBtn";
 
 // ─── Templates ───────────────────────────────────────────────────────────────
@@ -966,7 +966,6 @@ export function GitignoreTool() {
   const [selected,  setSelected]  = useState(new Set(["Python", "VSCode", "macOS"]));
   const [generated, setGenerated] = useState("");
   const [edited,    setEdited]    = useState("");
-  const [isEditing, setIsEditing] = useState(false);
   const [copied,    setCopied]    = useState(false);
   const [search,    setSearch]    = useState("");
 
@@ -982,7 +981,6 @@ export function GitignoreTool() {
     const out = sections.join("\n\n") + "\n";
     setGenerated(out);
     setEdited(out);
-    setIsEditing(false);
   }, [selected]);
 
   const toggle = (name) => {
@@ -1009,7 +1007,7 @@ export function GitignoreTool() {
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const resetEdit = () => { setEdited(generated); setIsEditing(false); };
+  const resetEdit = () => setEdited(generated);
 
   // Group templates
   const groups = {};
@@ -1129,7 +1127,7 @@ export function GitignoreTool() {
 
           <textarea
             value={edited}
-            onChange={e => { setEdited(e.target.value); setIsEditing(true); }}
+            onChange={e => setEdited(e.target.value)}
             spellCheck={false}
             style={{
               width: "100%",

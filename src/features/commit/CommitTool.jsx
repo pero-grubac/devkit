@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Textarea, Input, Btn, Row, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const COMMIT_TYPES = [
   { type: "feat",     emoji: "✨", desc: "New feature" },
@@ -16,12 +16,12 @@ const COMMIT_TYPES = [
 ];
 
 export function CommitTool() {
-  const [type,    setType]    = useState("");
-  const [scope,   setScope]   = useState("");
-  const [breaking,setBreaking]= useState(false);
-  const [desc,    setDesc]    = useState("");
-  const [body,    setBody]    = useState("");
-  const [footer,  setFooter]  = useState("");
+  const [type,    setType]    = usePersistentState("commit", "type", "");
+  const [scope,   setScope]   = usePersistentState("commit", "scope", "");
+  const [breaking,setBreaking]= usePersistentState("commit", "breaking", false);
+  const [desc,    setDesc]    = usePersistentState("commit", "desc", "");
+  const [body,    setBody]    = usePersistentState("commit", "body", "");
+  const [footer,  setFooter]  = usePersistentState("commit", "footer", "");
 
   const commit  = type ? `${type}${scope ? `(${scope})` : ""}${breaking ? "!" : ""}: ${desc}${body ? "\n\n" + body : ""}${footer ? "\n\n" + footer : ""}` : "";
   const descLen = desc.trim().length;

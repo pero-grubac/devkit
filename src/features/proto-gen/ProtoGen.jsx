@@ -4,6 +4,7 @@ import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { SaveBtn } from "../../shared/SaveBtn";
 import { LANG_MAP, PARSERS, toProto, UNIVERSAL_SCALARS } from "./parser";
 import { ORM_MAP } from "./ormParser";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 // ─── Mode tabs ────────────────────────────────────────────────────────────────
 const MODES = [
@@ -346,8 +347,8 @@ function OutputPanel({ output, error, pkgName, onPreview }) {
 
 // ─── Plain class mode ─────────────────────────────────────────────────────────
 function PlainMode({ pkgName, addService }) {
-  const [lang, setLang] = useState("python");
-  const [input, setInput] = useState(LANG_MAP.python.placeholder);
+  const [lang, setLang] = usePersistentState("proto", "lang", "python");
+  const [input, setInput] = usePersistentState("proto", "input", LANG_MAP.python.placeholder);
   const [output, setOutput] = useState("");
   const [error, setError] = useState(null);
   const [warnings, setWarnings] = useState([]);
@@ -509,8 +510,8 @@ function PlainMode({ pkgName, addService }) {
 
 // ─── ORM mode ─────────────────────────────────────────────────────────────────
 function OrmMode({ pkgName, addService }) {
-  const [ormKey, setOrmKey] = useState("sqlalchemy");
-  const [input, setInput] = useState(ORM_MAP.sqlalchemy.placeholder);
+  const [ormKey, setOrmKey] = usePersistentState("proto", "ormKey", "sqlalchemy");
+  const [input, setInput] = usePersistentState("proto", "ormInput", ORM_MAP.sqlalchemy.placeholder);
   const [output, setOutput] = useState("");
   const [error, setError] = useState(null);
   const [warnings, setWarnings] = useState([]);
@@ -1026,7 +1027,7 @@ function CustomMode({ pkgName, addService }) {
 
 // ─── Root component ───────────────────────────────────────────────────────────
 export function ProtoGen() {
-  const [mode, setMode] = useState("plain");
+  const [mode, setMode] = usePersistentState("proto", "mode", "plain");
   const [pkgName, setPkgName] = useState("mypackage");
   const [addService, setAddService] = useState(false);
 

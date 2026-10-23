@@ -50,6 +50,25 @@ async function hotp(key, counter) {
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
+const CodeCard = ({ label, value, dim, barColor }) => (
+  <Card style={{ flex: 1, textAlign: "center", opacity: dim ? 0.5 : 1 }}>
+    <Label>{label}</Label>
+    <div
+      style={{
+        fontFamily: "var(--mono)",
+        fontSize: 38,
+        fontWeight: 700,
+        letterSpacing: "0.2em",
+        color: dim ? T.mid : barColor,
+        margin: "8px 0",
+      }}
+    >
+      {value.slice(0, 3)} {value.slice(3)}
+    </div>
+    {!dim && <CopyBtn text={value} />}
+  </Card>
+);
+
 export function TotpTool() {
   const [secret, setSecret] = useState("JBSWY3DPEHPK3PXP");
   const [code, setCode] = useState("------");
@@ -89,7 +108,7 @@ export function TotpTool() {
   }, []);
 
   // Recompute immediately whenever secret changes
-  const lastCounterRef = useRef(Math.floor(Date.now() / 1000 / 30));
+  const lastCounterRef = useRef(null);
   useEffect(() => {
     lastCounterRef.current = Math.floor(Date.now() / 1000 / 30);
     computeCodes(secret);
@@ -121,25 +140,6 @@ export function TotpTool() {
   const barColor = danger ? T.red : timeLeft <= 10 ? T.orange : T.green;
   // Use discrete width steps instead of transition to avoid the jump on tab open
   const progress = Math.round((timeLeft / 30) * 100);
-
-  const CodeCard = ({ label, value, dim }) => (
-    <Card style={{ flex: 1, textAlign: "center", opacity: dim ? 0.5 : 1 }}>
-      <Label>{label}</Label>
-      <div
-        style={{
-          fontFamily: "var(--mono)",
-          fontSize: 38,
-          fontWeight: 700,
-          letterSpacing: "0.2em",
-          color: dim ? T.mid : barColor,
-          margin: "8px 0",
-        }}
-      >
-        {value.slice(0, 3)} {value.slice(3)}
-      </div>
-      {!dim && <CopyBtn text={value} />}
-    </Card>
-  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -209,8 +209,8 @@ export function TotpTool() {
       </div>
 
       <div style={{ display: "flex", gap: 10 }}>
-        <CodeCard label="Current Code" value={code} dim={false} />
-        <CodeCard label="Next Code" value={next} dim={true} />
+        <CodeCard label="Current Code" value={code} dim={false} barColor={barColor} />
+        <CodeCard label="Next Code" value={next} dim={true} barColor={barColor} />
       </div>
 
       <Card>

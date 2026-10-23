@@ -80,12 +80,12 @@ textarea {
   width: 100%;
   text-align: left;
   transition: background 0.12s, color 0.12s, border-color 0.12s;
-  color: var(--dim);
+  color: var(--mid);
 }
 
 .nav-btn:hover {
   background: var(--s2);
-  color: var(--mid);
+  color: var(--text);
 }
 
 .nav-btn.active {
@@ -140,4 +140,40 @@ nav > div:first-child .group-label {
 
 .tool-page {
   animation: fadein 0.18s ease;
+}
+
+/* Lazy tool chunk loading */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.tool-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--acc);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-page,
+  .tool-spinner {
+    animation-duration: 0s;
+  }
+}
+
+/* Phones: drop the decorative top-bar extras and tighten the page padding.
+   (Inline styles set the desktop values, hence !important.) */
+@media (max-width: 760px) {
+  .topbar-dots,
+  .topbar-sub,
+  .topbar-kbd,
+  .palette-hints {
+    display: none !important;
+  }
+
+  .tool-page {
+    padding: 18px 14px !important;
+  }
 }

@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Input, Row, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 function hexToRgb(hex) {
   const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -26,8 +26,8 @@ function hexToHsl(hex) {
 }
 
 export function ColorTool() {
-  const [hex, setHex]     = useState("#7c6cf5");
-  const [input, setInput] = useState("#7c6cf5");
+  const [hex, setHex]     = usePersistentState("color", "hex", "#7c6cf5");
+  const [input, setInput] = usePersistentState("color", "input", "#7c6cf5");
 
   const rgb = hexToRgb(hex);
   const hsl = hexToHsl(hex);

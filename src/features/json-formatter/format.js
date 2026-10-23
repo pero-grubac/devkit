@@ -1,6 +1,10 @@
+// The result goes into innerHTML, so the JSON text is HTML-escaped first.
+// Quotes are left alone because the highlighter matches on them.
+const escapeHtml = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
 export function syntaxHL(json) {
-  return json.replace(
-    /(\"(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*\"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+  return escapeHtml(json).replace(
+    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
     m => {
       let cls = "jn";
       if (/^"/.test(m)) cls = /:$/.test(m) ? "jk" : "js";

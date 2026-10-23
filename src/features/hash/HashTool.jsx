@@ -4,11 +4,12 @@ import { Card, Label, CopyBtn, Btn } from "../../shared/ui";
 import { SaveBtn } from "../../shared/SaveBtn";
 import { md5 } from "./md5";
 import { digest, ALGOS } from "./digest";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 export function HashTool() {
-  const [input,  setInput]  = useState("");
+  const [input,  setInput]  = usePersistentState("hash", "input", "");
   const [hashes, setHashes] = useState({});
-  const [upper,  setUpper]  = useState(false);
+  const [upper,  setUpper]  = usePersistentState("hash", "upper", false);
 
   useEffect(() => {
     if (!input) { setHashes({}); return; }

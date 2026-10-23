@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { T } from "../../shared/theme";
 import { Textarea, Btn, Row, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const MODES = [
   { id: "encode",  label: "Text → Base64" },
@@ -10,9 +11,9 @@ const MODES = [
 
 // ── Text encode/decode ────────────────────────────────────────────────────────
 function TextMode() {
-  const [input,   setInput]   = useState("");
-  const [mode,    setMode]    = useState("encode");
-  const [urlSafe, setUrlSafe] = useState(false);
+  const [input,   setInput]   = usePersistentState("base64", "input", "");
+  const [mode,    setMode]    = usePersistentState("base64", "textMode", "encode");
+  const [urlSafe, setUrlSafe] = usePersistentState("base64", "urlSafe", false);
 
   const output = (() => {
     if (!input) return "";
@@ -162,7 +163,7 @@ function ImageMode() {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export function Base64Tool() {
-  const [mode, setMode] = useState("encode");
+  const [mode, setMode] = usePersistentState("base64", "mode", "encode");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

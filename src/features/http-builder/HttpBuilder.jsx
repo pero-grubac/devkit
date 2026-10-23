@@ -2,6 +2,7 @@ import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Row, Btn, Card, Label, CopyBtn } from "../../shared/ui";
 import { buildCurl, buildFetch, buildAxios } from "./codegen";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 const METHODS    = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
 const BODY_TYPES = ["none", "json", "form", "text"];
@@ -54,11 +55,11 @@ const tabStyle = active => ({
 });
 
 export function HttpBuilder() {
-  const [method,   setMethod]   = useState("GET");
-  const [url,      setUrl]      = useState("https://jsonplaceholder.typicode.com/users");
+  const [method,   setMethod]   = usePersistentState("http-req", "method", "GET");
+  const [url,      setUrl]      = usePersistentState("http-req", "url", "https://jsonplaceholder.typicode.com/users");
   const [headers,  setHeaders]  = useState([{ key: "Accept", value: "application/json" }]);
-  const [body,     setBody]     = useState("");
-  const [bodyType, setBodyType] = useState("none");
+  const [body,     setBody]     = usePersistentState("http-req", "body", "");
+  const [bodyType, setBodyType] = usePersistentState("http-req", "bodyType", "none");
   const [tab,      setTab]      = useState("headers");
   const [codeTab,  setCodeTab]  = useState("curl");
   const [response, setResponse] = useState(null);

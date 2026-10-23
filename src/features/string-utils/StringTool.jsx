@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { T } from "../../shared/theme";
 import { Textarea, Card, Label, CopyBtn } from "../../shared/ui";
+import { usePersistentState } from "../../shared/usePersistentState";
 
 // ─── Case converters ─────────────────────────────────────────────────────────
 function toSlug(s)     { return s.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_]+/g, "-").replace(/^-+|-+$/g, ""); }
@@ -58,8 +58,8 @@ function ResultCard({ label, value }) {
 }
 
 export function StringTool() {
-  const [input, setInput] = useState("Hello World, this is a sample string for testing all the string utilities.");
-  const [sub,   setSub]   = useState("case");
+  const [input, setInput] = usePersistentState("string", "input", "Hello World, this is a sample string for testing all the string utilities.");
+  const [sub,   setSub]   = usePersistentState("string", "sub", "case");
 
   const words     = input.trim().split(/\s+/).filter(Boolean);
   const chars     = input.length;
