@@ -335,10 +335,12 @@ sequenceDiagram
 
 | Workflow | Runs on | What it does |
 |----------|---------|--------------|
-| `ci.yml` | Pull requests and pushes to branches other than `main` | Three jobs: **test** (lint, unit tests, build), **e2e** (Playwright on desktop and mobile, traces uploaded on failure) and **lighthouse** (Lighthouse CI on the build served under `/devkit/`, report uploaded as an artifact) |
-| `deploy.yml` | Push to `main`, or a manual run | Lint, test and build, plus the **e2e** job; the deploy of `dist/` to GitHub Pages waits for both |
+| `ci.yml` | Every push (including `main`) and pull request | Three jobs: **test** (lint, unit tests, build), **e2e** (Playwright on desktop and mobile, traces uploaded on failure) and **lighthouse** (Lighthouse CI on the build served under `/devkit/`, report uploaded as an artifact) |
+| `deploy.yml` | After **CI passes on `main`**, or a manual run | Builds and deploys `dist/` to GitHub Pages; the tests already ran in CI |
 
-Both workflows **skip documentation-only changes** (`*.md`, `readme_assets/`, `LICENSE`, `.gitignore`, `.vscode/`), cache npm downloads and cancel superseded runs.
+Deploy is chained to CI (`workflow_run`): a push to `main` is tested once, and only a green run is published, from exactly the commit that was tested. Documentation-only commits start neither.
+
+CI **skips documentation-only changes** (`*.md`, `readme_assets/`, `LICENSE`, `.gitignore`, `.vscode/`), cache npm downloads and cancel superseded runs.
 
 **One-time setup:** **Settings → Pages → Build and deployment → Source** → **GitHub Actions**. The site is served at `https://pero-grubac.github.io/devkit/`.
 
