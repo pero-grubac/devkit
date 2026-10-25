@@ -17,7 +17,7 @@
 
 [![Live Demo](https://img.shields.io/badge/🧰_Live_Demo-devkit-7C6CF5?style=for-the-badge)](https://pero-grubac.github.io/devkit/)
 
-<img src="readme_assets/demo.gif" alt="DevKit demo: opening tools from the Ctrl+K command palette, formatting JSON, hashing text, opening a #/jwt deep link and going back with the browser" width="860">
+<img src="readme_assets/demo.gif" alt="DevKit demo: JSON formatted as it is typed, opening the Hash tool from the Ctrl+K palette and hashing text, the Regex tool with the URL and IPv4 presets, then the UUID generator" width="860">
 
 </div>
 
